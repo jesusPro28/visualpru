@@ -1,0 +1,178 @@
+/* ============================================
+   PERFIL DE EMPLEADO — Estilos adicionales
+   ============================================ */
+
+.perfil-main {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 0 16px 40px;
+}
+
+/* — Secciones — */
+.perfil-seccion {
+  display: none;
+}
+.perfil-seccion.activa {
+  display: block;
+}
+
+.perfil-seccion-titulo {
+  color: var(--maroon);
+  border-bottom: 3px solid var(--gold);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  font-size: 1.4rem;
+}
+
+.perfil-sub-titulo {
+  color: var(--maroon);
+  margin-top: 24px;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+/* — Cards — */
+.perfil-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+/* — Datos personales — */
+.perfil-datos-card {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.perfil-foto-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  min-width: 180px;
+}
+
+.perfil-foto {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--gold);
+  background: #eee;
+}
+
+.perfil-btn-foto {
+  cursor: pointer;
+  background: var(--maroon);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  transition: opacity 0.3s;
+  text-align: center;
+}
+.perfil-btn-foto:hover {
+  opacity: 0.85;
+}
+
+.perfil-info {
+  flex: 1;
+  min-width: 250px;
+}
+
+.perfil-campo {
+  padding: 8px 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 15px;
+}
+.perfil-campo strong {
+  color: var(--maroon);
+  display: inline-block;
+  min-width: 160px;
+}
+
+/* — Mensajes de estado — */
+.perfil-status-msg {
+  font-size: 13px;
+  display: block;
+  margin-top: 4px;
+}
+.perfil-status-msg.ok { color: #2e7d32; }
+.perfil-status-msg.error { color: #c62828; }
+
+.perfil-hint {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* — Filtros — */
+.perfil-filtros {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+.perfil-filtros label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-dark);
+}
+.perfil-filtros input[type="date"] {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  font-size: 14px;
+}
+
+/* — Formulario de contraseña — */
+.perfil-form-password {
+  max-width: 450px;
+}
+
+/* — Navbar link activo — */
+.navbar a.nav-activo {
+  text-decoration: underline;
+  opacity: 1;
+  font-weight: 700;
+}
+
+/* — Tabla responsive — */
+@media (max-width: 600px) {
+  .perfil-datos-card {
+    flex-direction: column;
+    align-items: center;
+  }
+  .perfil-campo strong {
+    min-width: auto;
+    display: block;
+  }
+  .tabla-empleados {
+    font-size: 13px;
+  }
+  .perfil-filtros {
+    flex-direction: column;
+  }
+}
+
+/* Estado badges */
+.badge-puntual {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.badge-retardo {
+  background: #fff3e0;
+  color: #e65100;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}

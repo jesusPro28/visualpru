@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Perfil — UTHH Sistema de Asistencia</title>
+  <link rel="stylesheet" href="../css/Privado.css">
+  <link rel="stylesheet" href="../css/perfil-empleado.css">
+</head>
+<body>
+<header class="header">
+  <div class="top-bar">
+    <nav aria-label="Enlaces superiores">
+      <div style="display: flex; align-items: center; margin-bottom: 10px; gap: 10px;">
+        <img src="../img/805-original.webp" alt="logo" width="40">
+        <div style="color: #fff; font-weight: bold;">UTHH</div>
+      </div>
+      <a href="PerfilEmpleadoPri.html">Mi Perfil</a>
+    </nav>
+  </div>
+  <nav class="navbar" aria-label="Navegación principal">
+    <ul>
+      <li><a href="#" onclick="mostrarSeccion('datos');return false;"> Datos Personales</a></li>
+      <li><a href="#" onclick="mostrarSeccion('horario');return false;"> Horario</a></li>
+      <li><a href="#" onclick="mostrarSeccion('asistencias');return false;"> Asistencias</a></li>
+      <li><a href="#" onclick="mostrarSeccion('incidencias');return false;"> Incidencias</a></li>
+      <li><a href="#" onclick="mostrarSeccion('notificaciones');return false;"> Notificaciones <span id="notif-badge" style="display:none;background:#dc3545;color:#fff;font-size:11px;padding:2px 7px;border-radius:50%;margin-left:3px;"></span></a></li>
+      <li><a href="#" onclick="mostrarSeccion('justificaciones');return false;"> Justificaciones</a></li>
+      <li><a href="#" onclick="mostrarSeccion('password');return false;"> Cambiar Contraseña</a></li>
+      <li><a href="#" id="btn-logout"> Cerrar sesión</a></li>
+    </ul>
+  </nav>
+</header>
+
+<h1>Mi Perfil</h1>
+
+<main class="perfil-main">
+
+  <!-- Alerta de retardos -->
+  <div id="alerta-retardos" style="display:none;background:#fff3cd;border-left:5px solid #ffc107;
+       border-radius:6px;padding:12px 20px;margin:15px 0;font-size:15px;color:#856404;">
+  </div>
+
+  <!-- ===== SECCIÓN: DATOS PERSONALES ===== -->
+  <section id="seccion-datos" class="perfil-seccion activa">
+    <h2 class="perfil-seccion-titulo">Datos Personales</h2>
+    <div class="perfil-card perfil-datos-card">
+      <div class="perfil-foto-container">
+  <img id="foto-perfil" src="../img/805-original.webp" alt="Foto de perfil" class="perfil-foto"
+       style="width:150px;height:150px;object-fit:cover;border-radius:50%;border:4px solid #6b1a2a;" />
+</div>
+      <div class="perfil-info">
+        <div class="perfil-campo"><strong>Núm. Trabajador:</strong> <span id="info-numTrabajador">—</span></div>
+        <div class="perfil-campo"><strong>CURP:</strong> <span id="info-curp">—</span></div>
+        <div class="perfil-campo"><strong>Nombre:</strong> <span id="info-nombre">—</span></div>
+        <div class="perfil-campo"><strong>Apellido Paterno:</strong> <span id="info-aPaterno">—</span></div>
+        <div class="perfil-campo"><strong>Apellido Materno:</strong> <span id="info-aMaterno">—</span></div>
+        <div class="perfil-campo"><strong>Puesto:</strong> <span id="info-puesto">—</span></div>
+        <div class="perfil-campo"><strong>Departamento:</strong> <span id="info-departamento">—</span></div>
+      </div>
+    </div>
+
+    <h3 class="perfil-sub-titulo">Estado de Puntualidad (últimos registros)</h3>
+    <div class="perfil-card">
+      <table class="tabla-empleados" id="tabla-estados">
+        <thead>
+          <tr><th>Fecha</th><th>Estatus</th></tr>
+        </thead>
+        <tbody id="tbody-estados">
+          <tr><td colspan="2">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== SECCIÓN: HORARIO ===== -->
+  <section id="seccion-horario" class="perfil-seccion">
+    <h2 class="perfil-seccion-titulo">Mi Horario Semanal</h2>
+    <div class="perfil-card">
+      <div id="horario-info">
+        <p id="horario-turno"><strong>Turno:</strong> —</p>
+        <table class="tabla-empleados" id="tabla-horario">
+          <thead>
+            <tr><th>Día</th><th>Entrada (AM)</th><th>Salida (PM)</th></tr>
+          </thead>
+          <tbody id="tbody-horario">
+            <tr><td colspan="3">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p id="horario-no-data" style="display:none;text-align:center;">No se encontró horario asignado.</p>
+    </div>
+  </section>
+
+  <!-- ===== SECCIÓN: ASISTENCIAS ===== -->
+ <section id="seccion-asistencias" class="perfil-seccion">
+  <h2 class="perfil-seccion-titulo">Mis Asistencias</h2>
+  <div class="perfil-card">
+    <table class="tabla-empleados">
+      <thead>
+        <tr><th>Fecha</th><th>Entrada</th><th>Salida</th><th>Incidencia</th></tr>
+      </thead>
+      <tbody id="tbody-asistencias">
+        <tr><td colspan="4">Cargando...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+  <!-- ===== SECCIÓN: INCIDENCIAS ===== -->
+  <section id="seccion-incidencias" class="perfil-seccion">
+    <h2 class="perfil-seccion-titulo">Mis Incidencias</h2>
+    <div class="perfil-card">
+      <table class="tabla-empleados" id="tabla-incidencias">
+        <thead>
+          <tr><th>Fecha</th><th>CURP</th><th>Descripción</th></tr>
+        </thead>
+        <tbody id="tbody-incidencias">
+          <tr><td colspan="3">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== SECCIÓN: NOTIFICACIONES ===== -->
+  <section id="seccion-notificaciones" class="perfil-seccion">
+    <h2 class="perfil-seccion-titulo">Mis Notificaciones</h2>
+    <div id="lista-notificaciones">
+      <p style="text-align:center;">Cargando notificaciones...</p>
+    </div>
+  </section>
+
+  <!-- ===== SECCIÓN: JUSTIFICACIONES ===== -->
+  <section id="seccion-justificaciones" class="perfil-seccion">
+    <h2 class="perfil-seccion-titulo">Justificaciones de Tardanzas</h2>
+    
+    <div class="perfil-card">
+      <h3 style="margin:0 0 15px;color:#6b1a2a;">Enviar Nueva Justificación</h3>
+      <p style="background:#e8f4fd;padding:12px;border-radius:6px;margin-bottom:15px;font-size:14px;">
+        Si llegaste tarde y tienes un motivo justificado, puedes enviar tu justificación al administrador.
+        Adjunta un archivo PDF de respaldo (máximo 10MB).
+      </p>
+      <form id="form-justificacion" class="registro-form" autocomplete="off">
+        <div class="registro-group">
+          <label class="registro-label" for="just-fecha">Fecha de la tardanza:</label>
+          <input class="registro-input" type="date" id="just-fecha" required />
+        </div>
+        <div class="registro-group">
+          <label class="registro-label" for="just-motivo">Motivo de la justificación:</label>
+          <textarea class="registro-input" id="just-motivo" rows="3" required maxlength="2000" placeholder="Describe el motivo de tu tardanza..."></textarea>
+        </div>
+        <div class="registro-group">
+          <label class="registro-label" for="just-pdf">Archivo PDF de respaldo (opcional, máx. 10MB):</label>
+          <input class="registro-input" type="file" id="just-pdf" accept=".pdf,application/pdf" />
+        </div>
+        <span id="just-status" style="display:block;margin:10px 0;font-size:14px;"></span>
+        <button type="submit" class="registro-btn registro-btn--guardar">Enviar Justificación</button>
+      </form>
+    </div>
+
+    <h3 class="perfil-sub-titulo" style="margin-top:25px;">Historial de Justificaciones</h3>
+    <div class="perfil-card">
+      <table class="tabla-empleados">
+        <thead>
+          <tr><th>Fecha</th><th>Motivo</th><th>Estado</th><th>Comentario Admin</th><th>Enviada</th></tr>
+        </thead>
+        <tbody id="tbody-justificaciones">
+          <tr><td colspan="5">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== SECCIÓN: CAMBIAR CONTRASEÑA ===== -->
+  <section id="seccion-password" class="perfil-seccion">
+    <h2 class="perfil-seccion-titulo">Cambiar Contraseña</h2>
+    <div class="perfil-card">
+      <p style="background:#e8f4fd;padding:12px;border-radius:6px;margin-bottom:15px;font-size:14px;">
+         La contraseña debe tener: <strong>mínimo 8 caracteres</strong>,
+        <strong>una mayúscula</strong>, <strong>un número</strong> y
+        <strong>un carácter especial</strong> (!@#$%...)
+      </p>
+      <form id="form-password" class="registro-form perfil-form-password" autocomplete="off">
+        <div class="registro-group">
+          <label class="registro-label" for="pw-actual">Contraseña actual:</label>
+          <input class="registro-input" type="password" id="pw-actual" required />
+        </div>
+        <div class="registro-group">
+          <label class="registro-label" for="pw-nueva">Nueva contraseña:</label>
+          <input class="registro-input" type="password" id="pw-nueva" required minlength="8" />
+        </div>
+        <div class="registro-group">
+          <label class="registro-label" for="pw-confirmar">Confirmar nueva contraseña:</label>
+          <input class="registro-input" type="password" id="pw-confirmar" required minlength="8" />
+        </div>
+        <span id="pw-status" class="perfil-status-msg" style="display:block;margin:10px 0;font-size:14px;"></span>
+        <button type="submit" class="registro-btn registro-btn--guardar">Actualizar Contraseña</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <section>
+      <h3>Universidad Tecnológica de la Huasteca Hidalguense</h3>
+      <p>Dirección: Carretera Huejutla - Chalahuiyapa Km. 3.5, Hidalgo</p>
+      <p>Teléfono: 789 896 2083</p>
+      <p>Correo: contacto@uthh.edu.mx</p>
+    </section>
+    <section>
+      <p>&copy; <span id="year"></span> UTHH. Todos los derechos reservados.</p>
+    </section>
+  </div>
+</footer>
+
+<script src="../js/api-config.js"></script>
+<script src="../js/perfil-empleado.js"></script>
+</body>
+</html>

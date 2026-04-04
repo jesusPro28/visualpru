@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Universidad Tecnológica de la Huasteca Hidalguense - Noticias</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/Publico.css">
+</head>
+
+<body>
+<header class="header">
+    
+    <div class="top-bar">
+        <nav aria-label="Enlaces superiores">
+           <div style="display: flex; align-items: center; margin-bottom: 10px; gap: 10px;">
+            <img src="../img/805-original.webp" alt="logo" width="40">
+            <div style="color: #fff; font-weight: bold;">UTHH</div>
+           </div>
+            <a href="../index.html">Inicio</a>
+            <a href="directorioPu.html">Directorio</a>
+            <a href="contactoPu.html">Contacto</a>
+            <a href="serviciosSistemaPu.html">Servicios Del Sistema</a>
+        </nav>
+    </div>
+
+    <nav class="navbar" aria-label="Navegación principal">
+        <ul>
+            <li><a href="serviciosAcademicosPu.html">Servicios Académicos</a></li>
+            <li><a href="quienesSomosPu.html">¿Quiénes somos?</a></li>
+            <li><a href="perfilAcademicoPu.html">Perfil Académico</a></li>
+            <li><a href="loguinPu.html">Iniciar Sesión</a></li>
+        </ul>
+    </nav>
+</header>
+<main class="main-login">
+    <section class="login-section" aria-labelledby="titulo-acceso">
+        <form class="login-form" action="Loguin.php" method="POST" autocomplete="off">
+            <h2 class="login-title" id="titulo-acceso">Acceso</h2>
+
+            <div class="login-group">
+                <label class="login-label" for="tipo">Tipo de usuario:</label>
+                <select class="login-select" id="tipo" name="tipo" required>
+                    <option value="">Seleccione</option>
+                    <option value="Administrador">Administrador</option>
+                    <option value="DIRECTOR DE CARRERA">DIRECTOR DE CARRERA</option>
+                    <option value="RECTOR">RECTOR</option>
+                    <option value="SECRETARIA">SECRETARIA</option>
+                    <option value="DOCENTE">DOCENTE</option>
+                    <option value="JEFE DE MANTENIMIENTO">JEFE DE MANTENIMIENTO</option>
+                    <option value="MANTENIMIENTO">MANTENIMIENTO</option>
+                </select>
+            </div>
+
+            <div class="login-group">
+                <label class="login-label" for="usuario">Usuario:</label>
+                <input class="login-input" type="text"
+                       id="usuario"
+                       name="usuario"
+                       placeholder="Ingresa tu usuario"
+                       required>
+            </div>
+
+            <div class="login-group">
+                <label class="login-label" for="password">Contraseña:</label>
+                <div class="login-password-wrapper">
+                    <input class="login-input login-input--password" 
+                           type="password"
+                           id="password"
+                           name="password"
+                           placeholder="Ingresa tu contraseña"
+                           required
+                           minlength="8">
+                    <span class="login-toggle-icon" 
+                          id="toggleIcon"
+                          onclick="togglePassword()"
+                          title="Mostrar/ocultar contraseña">
+                    </span>
+                </div>
+            </div>
+
+            <button class="login-btn" type="submit">Ingresar</button>
+        </form>
+    </section>
+</main>
+<footer class="footer">
+    <div class="footer-inner">
+        <section>
+            <h3>Universidad Tecnológica de la Huasteca Hidalguense</h3>
+            <p>Dirección: Carretera Huejutla - Chalahuiyapa Km. 3.5, Hidalgo</p>
+            <p>Teléfono: 789 896 2083</p>
+            <p>Correo: contacto@uthh.edu.mx</p>
+        </section>
+
+        <section>
+            <p>&copy; <span id="year"></span> UTHH. Todos los derechos reservados.</p>
+        </section>
+    </div>
+</footer>
+
+<script> document.getElementById('year').textContent = new Date().getFullYear();</script>
+
+<script src="../js/api-config.js"></script>
+<script src="../js/login.js"></script>
+</body>
+</html>

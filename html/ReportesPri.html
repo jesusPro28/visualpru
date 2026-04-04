@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reportes - UTHH</title>
+  <link rel="stylesheet" href="../css/Privado.css">
+</head>
+<body>
+  <header class="header">
+    <div class="top-bar">
+        <nav aria-label="Enlaces superiores">
+           <div style="display: flex; align-items: center; margin-bottom: 10px; gap: 10px;">
+            <img src="../img/805-original.webp" alt="logo" width="40">
+            <div style="color: #fff; font-weight: bold;">UTHH</div>
+           </div>
+            <a href="AdministradorPri.html">Administrador</a>
+            <a href="RegistroEmpleadosPri.html">Registro</a>
+            <a href="EmpleadosExistentesPri.html">Empleados existentes</a>
+            <a href="RegistroIncidenciasPri.html">Registro incidencias</a>
+            <a href="ReportesPri.html">Reporte individual</a>
+        </nav>
+    </div>
+    <nav class="navbar" aria-label="Navegación principal">
+        <ul>
+            <a href="NoticiasPri.html">Noticias</a>
+            <a href="LitadoNotPri.html">Listado Noticias</a>
+            <a href="quienesSomosPri.html">Modificar Filosofía</a>
+            <a href="DirectorioServiciosPri.html">Directorio y Servicios</a>
+            <a href="JustificacionesPri.html">Justificaciones</a>
+            <a href="loguinPu.html">Cerrar sesión</a>
+        </ul>
+    </nav>
+  </header>
+
+  <h1>Reportes</h1>
+
+  <main>
+    <section aria-labelledby="titulo-reporte">
+      <h2 id="titulo-reporte"></h2>
+
+      <form id="form-reporte">
+        <fieldset>
+          <legend>Datos para generar reporte</legend>
+
+          <div class="form-group" id="grupo-trabajador">
+            <label for="Num_Trabajador">Número de Trabajador:</label>
+            <input type="text" id="Num_Trabajador" name="Num_Trabajador" />
+          </div>
+
+          <div class="form-group">
+            <label for="fechainicio">Fecha inicio:</label>
+            <input type="date" id="fechainicio" name="fechainicio" required />
+          </div>
+
+          <div class="form-group">
+            <label for="fechaFin">Fecha fin:</label>
+            <input type="date" id="fechaFin" name="fechaFin" required />
+          </div>
+        </fieldset>
+
+        <input type="hidden" id="accion" name="accion" value="individual" />
+
+        <div class="form-buttons">
+          <button type="reset" onclick="setTimeout(()=>seleccionarTipo('individual'),10)">Limpiar</button>
+          <button type="submit">Generar reporte</button>
+          <button type="button" id="btn-individual" class="btn-tipo activo" onclick="seleccionarTipo('individual')">Individual</button>
+          <button type="button" id="btn-general" class="btn-tipo" onclick="seleccionarTipo('general')">General</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <section>
+        <h3>Universidad Tecnológica de la Huasteca Hidalguense</h3>
+        <p>Dirección: Carretera Huejutla - Chalahuiyapa Km. 3.5, Hidalgo</p>
+        <p>Teléfono: 789 896 2083</p>
+        <p>Correo: contacto@uthh.edu.mx</p>
+      </section>
+      <section>
+        <p>&copy; <span id="year"></span> UTHH. Todos los derechos reservados.</p>
+      </section>
+    </div>
+  </footer>
+
+  <script src="../js/api-config.js"></script>
+  <script src="../js/reportes.js"></script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Contenido - UTHH</title>
+    <link rel="stylesheet" href="../css/Privado.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="top-bar">
+        <nav aria-label="Enlaces superiores">
+           <div style="display: flex; align-items: center; margin-bottom: 10px; gap: 10px;">
+            <img src="../img/805-original.webp" alt="logo" width="40">
+            <div style="color: #fff; font-weight: bold;">UTHH</div>
+           </div>
+            <a href="AdministradorPri.html">Administrador</a>
+            <a href="RegistroEmpleadosPri.html">Registro</a>
+            <a href="EmpleadosExistentesPri.html">Empleados existentes</a>
+            <a href="RegistroIncidenciasPri.html">Registro incidencias</a>
+            <a href="ReportesPri.html">Reporte individual</a>
+        </nav>
+    </div>
+    <nav class="navbar" aria-label="Navegación principal">
+        <ul>
+            <a href="NoticiasPri.html">Noticias</a>
+            <a href="LitadoNotPri.html">Listado Noticias</a>
+            <a href="quienesSomosPri.html">Modificar Filosofía</a>
+            <a href="DirectorioServiciosPri.html">Directorio y Servicios</a>
+            <a href="JustificacionesPri.html">Justificaciones</a>
+            <a href="loguinPu.html">Cerrar sesión</a>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div class="contenedor">
+
+        <!-- ✅ Formulario 1 — Filosofía Institucional -->
+        <h2>Editar Filosofía Institucional</h2>
+        <div style="background:#fff;padding:20px;border-radius:8px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+            <label for="titulo-filosofia">Título:</label>
+            <input type="text" id="titulo-filosofia"
+                   style="width:100%;padding:8px;margin-bottom:15px;border:1px solid #ccc;border-radius:4px;">
+
+            <label for="contenido-filosofia">Contenido:</label>
+            <textarea id="contenido-filosofia" rows="12"
+                      style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;resize:vertical;"></textarea>
+
+            <button id="btn-filosofia"
+                    onclick="guardar('Filosofia','titulo-filosofia','contenido-filosofia','btn-filosofia')"
+                    style="margin-top:15px;padding:10px 25px;background:#6b1a2a;color:#fff;border:none;border-radius:4px;cursor:pointer;">
+                Actualizar Filosofía
+            </button>
+        </div>
+
+        <!-- ✅ Formulario 2 — Perfil de Ingreso -->
+        <h2>Editar Perfil de Ingreso</h2>
+        <div style="background:#fff;padding:20px;border-radius:8px;margin-bottom:30px;box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+            <label for="titulo-perfil">Título:</label>
+            <input type="text" id="titulo-perfil"
+                   style="width:100%;padding:8px;margin-bottom:15px;border:1px solid #ccc;border-radius:4px;">
+
+            <label for="contenido-perfil">Contenido:</label>
+            <textarea id="contenido-perfil" rows="12"
+                      style="width:100%;padding:8px;border:1px solid #ccc;border-radius:4px;resize:vertical;"></textarea>
+
+            <button id="btn-perfil"
+                    onclick="guardar('Perfil','titulo-perfil','contenido-perfil','btn-perfil')"
+                    style="margin-top:15px;padding:10px 25px;background:#6b1a2a;color:#fff;border:none;border-radius:4px;cursor:pointer;">
+                Actualizar Perfil
+            </button>
+        </div>
+
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <section>
+            <h3>Universidad Tecnológica de la Huasteca Hidalguense</h3>
+            <p>Dirección: Carretera Huejutla – Chalahuiyapa Km. 3.5, Hidalgo</p>
+            <p>Teléfono: 789 896 2083</p>
+            <p>Correo: contacto@uthh.edu.mx</p>
+        </section>
+        <section>
+            <p>&copy; <span id="year"></span> UTHH. Todos los derechos reservados.</p>
+        </section>
+    </div>
+</footer>
+
+<script src="../js/api-config.js"></script>
+<script src="../js/quienes-somos-admin.js"></script>
+</body>
+</html>

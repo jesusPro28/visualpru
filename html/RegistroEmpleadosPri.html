@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Registro de Asistencia del Personal</title>
+  <link rel="stylesheet" href="../css/Privado.css">
+</head>
+<body>
+  <header class="header">
+    
+    <div class="top-bar">
+        <nav aria-label="Enlaces superiores">
+           <div style="display: flex; align-items: center; margin-bottom: 10px; gap: 10px;">
+            <img src="../img/805-original.webp" alt="logo" width="40 ">
+            <div style="color: #fff; font-weight: bold;">UTHH</div>
+           </div>
+            <a href="AdministradorPri.html">Administrador</a>
+            <a href="RegistroEmpleadosPri.html">Registro</a>
+            <a href="EmpleadosExistentesPri.html">Empleados existentes</a>
+            <a href="RegistroIncidenciasPri.html">Registro incidencias</a>
+            <a href="ReportesPri.html">Reporte individual</a>
+        </nav>
+    </div>
+
+    <nav class="navbar" aria-label="Navegación principal">
+        <ul>
+             <a href="NoticiasPri.html"> Noticias</a>
+            <a href="LitadoNotPri.html">Listado Noticias</a>
+            <a href="quienesSomosPri.html">Modificar Filosofía</a>
+            <a href="DirectorioServiciosPri.html">Directorio y Servicios</a>
+            <a href="JustificacionesPri.html">Justificaciones</a>
+            <a href="loguinPu.html">Cerrar sesión</a>
+        </ul>
+    </nav>
+</header>
+
+  <h1>Registro</h1>
+<main class="main-registro">
+    <section class="registro-section" aria-labelledby="titulo-registro">
+        <h1 class="registro-title" id="titulo-registro"></h1>
+        <p class="registro-desc">No te pierdas mis próximos posts…</p>
+
+        <form class="registro-form" action="guardar.php" method="POST">
+
+            <fieldset class="registro-fieldset">
+                <legend class="registro-legend">Datos personales</legend>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="Num_Trabajador">Num Trabajador:</label>
+                    <input class="registro-input" type="text" id="Num_Trabajador" name="Num_Trabajador" required />
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="Curp">CURP:</label>
+                    <input class="registro-input" type="text" id="Curp" name="Curp" required />
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="nombre">Nombre(s):</label>
+                    <input class="registro-input" type="text" id="nombre" name="nombre" required />
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="apP">Apellido Paterno:</label>
+                    <input class="registro-input" type="text" id="apP" name="apP" required />
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="apM">Apellido Materno:</label>
+                    <input class="registro-input" type="text" id="apM" name="apM" required />
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="password">Contraseña:</label>
+                    <input class="registro-input" type="password" id="password" name="password" required minlength="8" placeholder="Mínimo 8 caracteres" />
+                    <small style="color: #777; font-size: 12px;">Mínimo 8 caracteres. Se almacenará encriptada.</small>
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="foto">Foto de perfil (opcional):</label>
+                    <input class="registro-input" type="file" id="foto" name="foto" accept="image/*" />
+                </div>
+            </fieldset>
+
+            <fieldset class="registro-fieldset">
+                <legend class="registro-legend">Puesto y departamento</legend>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="Puesto">Puesto:</label>
+                    <select class="registro-select" id="Puesto" name="Puesto" required>
+                        <option value="DIRECTOR DE CARRERA">DIRECTOR DE CARRERA</option>
+                        <option value="RECTOR">RECTOR</option>
+                        <option value="SECRETARIA">SECRETARIA</option>
+                        <option value="DOCENTE">DOCENTE</option>
+                        <option value="JEFE DE MANTENIMIENTO">JEFE DE MANTENIMIENTO</option>
+                        <option value="MANTENIMIENTO">MANTENIMIENTO</option>
+                    </select>
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="Departamento">Departamento:</label>
+                    <select class="registro-select" id="Departamento" name="Departamento" required>
+                        <option value="TIC">TIC</option>
+                        <option value="PROCESOS ALIMENTARIOS">PROCESOS ALIMENTARIOS</option>
+                        <option value="MECANICA">MECÁNICA</option>
+                    </select>
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="Turno">Turno:</label>
+                    <select class="registro-select" id="Turno" name="Turno" required>
+                        <option value="Matutino">Matutino</option>
+                        <option value="Vespertino">Vespertino</option>
+                    </select>
+                </div>
+            </fieldset>
+
+            <fieldset class="registro-fieldset">
+                <legend class="registro-legend">Asistencia semanal</legend>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="Lunes">Lunes AM:</label>
+                    <input class="registro-input" type="text" id="Lunes" name="Lunes" required />
+                    <label class="registro-label" for="LunesPM">Lunes PM:</label>
+                    <input class="registro-input" type="text" id="LunesPM" name="LunesPM" required />
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="Martes">Martes AM:</label>
+                    <input class="registro-input" type="text" id="Martes" name="Martes" required />
+                    <label class="registro-label" for="MartesPM">Martes PM:</label>
+                    <input class="registro-input" type="text" id="MartesPM" name="MartesPM" required />
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="Miercoles">Miércoles AM:</label>
+                    <input class="registro-input" type="text" id="Miercoles" name="Miercoles" required />
+                    <label class="registro-label" for="MiercolesPM">Miércoles PM:</label>
+                    <input class="registro-input" type="text" id="MiercolesPM" name="MiercolesPM" required />
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="Jueves">Jueves AM:</label>
+                    <input class="registro-input" type="text" id="Jueves" name="Jueves" required />
+                    <label class="registro-label" for="JuevesPM">Jueves PM:</label>
+                    <input class="registro-input" type="text" id="JuevesPM" name="JuevesPM" required />
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="Viernes">Viernes AM:</label>
+                    <input class="registro-input" type="text" id="Viernes" name="Viernes" required />
+                    <label class="registro-label" for="ViernesPM">Viernes PM:</label>
+                    <input class="registro-input" type="text" id="ViernesPM" name="ViernesPM" required />
+                </div>
+            </fieldset>
+
+            <div class="form-buttons">
+                <button class="registro-btn registro-btn--limpiar" type="reset">Limpiar</button>
+                <button class="registro-btn registro-btn--guardar" type="submit">Guardar</button>
+                <button class="registro-btn registro-btn--cancelar" type="button" onclick="window.location.href='Administrador.html'">Cancelar</button>
+            </div>
+
+        </form>
+    </section>
+</main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <section>
+        <h2>Universidad Tecnológica de la Huasteca Hidalguense</h2>
+        <p>Dirección: Carretera Huejutla - Chalahuiyapa Km. 3.5, Hidalgo</p>
+        <p>Teléfono: 789 896 2083</p>
+        <p>Correo: contacto@uthh.edu.mx</p>
+      </section>
+      <section>
+        <p>&copy; <span id="year"></span> UTHH. Todos los derechos reservados.</p>
+      </section>
+    </div>
+  </footer>
+<script src="../js/api-config.js"></script>
+<script src="../js/registro-empleados.js"></script>
+</body>
+</html>

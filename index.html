@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Universidad Tecnológica de la Huasteca Hidalguense - Noticias</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/Publico.css">
+</head>
+
+<body>
+<header class="header">
+    <div class="top-bar">
+        <nav aria-label="Enlaces superiores">
+           <div style="display: flex; align-items: center; margin-bottom: 10px; gap: 10px;">
+            <img src="img/805-original.webp" alt="logo" width="40">
+            <div style="color: #fff; font-weight: bold;">UTHH</div>
+           </div>
+            <a href="html/index.html">Inicio</a>
+            <a href="html/directorioPu.html">Directorio</a>
+            <a href="html/contactoPu.html">Contacto</a>
+            <a href="html/serviciosSistemaPu.html">Servicios Del Sistema</a>
+        </nav>
+    </div>
+
+    <nav class="navbar" aria-label="Navegación principal">
+        <ul>
+            <li><a href="html/serviciosAcademicosPu.html">Servicios Académicos</a></li>
+            <li><a href="html/quienesSomosPu.html">¿Quiénes somos?</a></li>
+            <li><a href="html/perfilAcademicoPu.html">Perfil Académico</a></li>
+            <li><a href="html/loguinPu.html">Iniciar Sesión</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main class="main-news">
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-left">
+            <h2 id="hero-title">
+                29 años de educación, innovación y <strong>transformación</strong>.
+            </h2>
+        </div>
+    </section>
+
+    <section class="news-section" aria-labelledby="news-title">
+        <h1 id="news-title">Noticias y Comunicados</h1>
+
+        <!-- ✅ Las noticias se cargan dinámicamente desde la BD -->
+        <div class="news-container"></div>
+
+    </section>
+</main>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <section>
+            <h3>Universidad Tecnológica de la Huasteca Hidalguense</h3>
+            <p>Dirección: Carretera Huejutla - Chalahuiyapa Km. 3.5, Hidalgo</p>
+            <p>Teléfono: 789 896 2083</p>
+            <p>Correo: contacto@uthh.edu.mx</p>
+        </section>
+        <section>
+            <p>&copy; <span id="year"></span> UTHH. Todos los derechos reservados.</p>
+        </section>
+    </div>
+</footer>
+
+<script src="js/api-config.js"></script>
+<script src="js/index.js"></script>
+</body>
+</html>

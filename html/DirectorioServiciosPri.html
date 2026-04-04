@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Contenido PDFs</title>
+    <link rel="stylesheet" href="../css/Privado.css">
+</head>
+<body>
+
+<header class="header">
+    <div class="top-bar">
+        <nav aria-label="Enlaces superiores">
+           <div style="display: flex; align-items: center; margin-bottom: 10px; gap: 10px;">
+            <img src="../img/805-original.webp" alt="logo" width="40">
+            <div style="color: #fff; font-weight: bold;">UTHH</div>
+           </div>
+            <a href="AdministradorPri.html">Administrador</a>
+            <a href="RegistroEmpleadosPri.html">Registro</a>
+            <a href="EmpleadosExistentesPri.html">Empleados existentes</a>
+            <a href="RegistroIncidenciasPri.html">Registro incidencias</a>
+            <a href="ReportesPri.html">Reporte individual</a>
+        </nav>
+    </div>
+    <nav class="navbar" aria-label="Navegación principal">
+        <ul>
+            <a href="NoticiasPri.html">Noticias</a>
+            <a href="LitadoNotPri.html">Listado Noticias</a>
+            <a href="quienesSomosPri.html">Modificar Filosofía</a>
+            <a href="DirectorioServiciosPri.html">Directorio y Servicios</a>
+            <a href="JustificacionesPri.html">Justificaciones</a>
+            <a href="loguinPu.html">Cerrar sesión</a>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <h1>Administrar Contenido (PDFs)</h1>
+
+    <!-- ✅ Subir nuevo -->
+    <h2>Subir nuevo archivo</h2>
+    <form class="form-incidencias" id="form-subir">
+        <fieldset class="form-incidencias-fieldset">
+            <legend class="form-incidencias-legend">Subir archivo</legend>
+            <div class="form-incidencias-group">
+                <label class="form-incidencias-label">Sección</label>
+                <select class="form-incidencias-input" id="seccion-subir">
+                    <option value="directorio">Directorio</option>
+                    <option value="servicio">Servicio</option>
+                </select>
+            </div>
+            <div class="form-incidencias-group">
+                <label class="form-incidencias-label">Título</label>
+                <input class="form-incidencias-input" type="text" id="titulo-subir" required>
+            </div>
+            <div class="form-incidencias-group">
+                <label class="form-incidencias-label">Archivo (PDF)</label>
+                <input class="form-incidencias-input" type="file" id="archivo-subir" accept=".pdf" required>
+            </div>
+            <div class="form-incidencias-buttons">
+                <button type="submit" class="form-incidencias-btn form-incidencias-submit">Subir</button>
+            </div>
+        </fieldset>
+    </form>
+
+    <hr>
+
+    <!-- ✅ Listado -->
+    <h2>Listado de archivos</h2>
+    <div class="form-incidencias-group" style="margin-bottom:15px;">
+        <label class="form-incidencias-label">Filtrar por sección</label>
+        <select class="form-incidencias-input" id="filtro-seccion" style="max-width:200px;">
+            <option value="">-- Todos --</option>
+            <option value="directorio">Directorio</option>
+            <option value="servicio">Servicio</option>
+        </select>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Sección</th>
+                <th>Título</th>
+                <th>Archivo</th>
+                <th>Fecha</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tbody-archivos">
+            <tr><td colspan="6">Cargando...</td></tr>
+        </tbody>
+    </table>
+
+    <hr>
+
+    <!-- ✅ Editar (oculto hasta que se haga clic en Editar) -->
+    <div id="seccion-editar-form" style="display:none;">
+        <h2>Editar archivo</h2>
+        <form class="form-incidencias" id="form-editar">
+            <fieldset class="form-incidencias-fieldset">
+                <legend class="form-incidencias-legend">Editar archivo</legend>
+                <input type="hidden" id="editar-id">
+                <div class="form-incidencias-group">
+                    <label class="form-incidencias-label">Sección</label>
+                    <select class="form-incidencias-input" id="seccion-editar">
+                        <option value="directorio">Directorio</option>
+                        <option value="servicio">Servicio</option>
+                    </select>
+                </div>
+                <div class="form-incidencias-group">
+                    <label class="form-incidencias-label">Título</label>
+                    <input class="form-incidencias-input" type="text" id="titulo-editar" required>
+                </div>
+                <div class="form-incidencias-group">
+                    <label class="form-incidencias-label">Reemplazar PDF (opcional)</label>
+                    <input class="form-incidencias-input" type="file" id="archivo-editar" accept=".pdf">
+                </div>
+                <div class="form-incidencias-buttons">
+                    <button type="reset" class="form-incidencias-btn form-incidencias-reset"
+                            onclick="document.getElementById('seccion-editar-form').style.display='none'">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="form-incidencias-btn form-incidencias-submit">
+                        Guardar cambios
+                    </button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <section>
+            <h3>Universidad Tecnológica de la Huasteca Hidalguense</h3>
+            <p>Dirección: Carretera Huejutla - Chalahuiyapa Km. 3.5, Hidalgo</p>
+            <p>Teléfono: 789 896 2083</p>
+            <p>Correo: contacto@uthh.edu.mx</p>
+        </section>
+        <section>
+            <p>&copy; <span id="year"></span> UTHH. Todos los derechos reservados.</p>
+        </section>
+    </div>
+</footer>
+
+<script src="../js/api-config.js"></script>
+<script src="../js/directorio-servicios-admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+/* ============================================
+   VARIABLES GLOBALES
+   ============================================ */
+:root {
+    
+    --maroon: #5b1220;  
+    --gold: #bd9659;    
+    --light: #efe1b3;   
+    --text-dark: #222;
+    --text-muted: #777;
+    --radius: 6px;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: #f5f5f5;
+    color: var(--text-dark);
+}
+
+a {
+    text-decoration: none;
+}
+
+h1 {
+    color: var(--maroon);
+    text-align: center;
+}
+
+/* === HEADER SUPERIOR === */
+.top-bar {
+    background: var(--maroon);
+    color: #fff;
+    padding: 8px 16px;
+    text-align: right;
+}
+
+.top-bar a {
+    color: #fff;
+    margin-left: 14px;
+    font-size: 14px;
+    transition: opacity 0.3s;
+}
+
+.top-bar a:hover {
+    opacity: 0.8;
+}
+
+/* === NAVBAR === */
+.navbar {
+    background: var(--gold);
+    padding: 12px;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.navbar a {
+    color: #fff;
+    font-weight: 500;
+    transition: opacity 0.3s;
+}
+
+.navbar a:hover {
+    opacity: 0.8;
+}
+
+/* === HERO (aún parte del header visual) === */
+.hero {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 40px 24px;
+    background: linear-gradient(
+        90deg,
+        rgba(91, 18, 32, 0.95) 0%,
+        rgba(91, 18, 32, 0.6) 35%,
+        rgba(239, 225, 179, 0.6) 35%
+    );
+    color: #fff;
+}
+
+.hero-left h2 {
+    font-size: 32px;
+    margin: 0;
+    padding: 12px 24px;
+    line-height: 1.4;
+}
+
+.hero-left strong {
+    font-weight: 800;
+    color: var(--gold);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .navbar {
+        display: block;
+        text-align: center;
+    }
+    .navbar ul {
+        justify-content: center;
+        margin-top: 10px;
+    }
+}
+
+/* === CONTENIDO GENERAL === */
+main {
+    max-width: 1100px;
+    margin: 30px auto;
+    background: #fff;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+}
+h1 {
+    color: var(--maroon);
+    text-align: center;
+}
+/* === FOOTER === */
+footer {
+    background: #2b2b2b;
+    color: #fff;
+    padding: 24px;
+    margin-top: 40px;
+}
+
+.footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; /* Cambio a flex-start para mejor alineación */
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+}
+.footer h3 {
+    margin-top: 0;
+    color: var(--gold);
+}
+
+.footer p {
+    margin: 8px 0;
+    line-height: 1.6;
+}
+
+/*Diseño del registro de empleados*/
+.registro-titulo-page {
+    color: var(--maroon);
+    text-align: center;
+}
+
+.main-registro {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 24px;
+}
+
+.registro-section {
+    background: #fff;
+    padding: 28px;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+}
+
+.registro-title {
+    color: var(--maroon);
+    margin-top: 0;
+}
+
+.registro-desc {
+    color: var(--text-muted);
+}
+
+.registro-fieldset {
+    border: 2px solid var(--gold);
+    padding: 20px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+}
+
+.registro-legend {
+    color: var(--maroon);
+    font-weight: bold;
+}
+
+.registro-group {
+    margin-bottom: 12px;
+}
+
+.registro-label {
+    display: inline-block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    width: 160px;
+}
+
+.registro-input,
+.registro-select {
+    padding: 10px;
+    border-radius: var(--radius);
+    border: 1px solid #ccc;
+    font-size: 14px;
+    width: 250px;
+}
+
+.registro-input:focus,
+.registro-select:focus {
+    border-color: var(--maroon);
+    outline: none;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 14px;
+}
+
+.registro-btn {
+    padding: 12px 18px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    color: #fff;
+}
+
+.registro-btn--limpiar  { background: #777; }
+.registro-btn--guardar  { background: var(--maroon); }
+.registro-btn--cancelar { background: var(--gold); }
+
+.registro-btn:hover { opacity: 0.85; }
+
+/*Tabla quienes somos y emppleados existentes*/
+:root {
+    --maroon: #5b1220;
+    --gold: #bd9659;
+    --light: #efe1b3;
+    --text-dark: #222;
+    --radius: 6px;
+    --shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+*{
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.tabla-empleados{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    background: #fff;
+}
+
+.tabla-empleados th{
+    background-color: var(--maroon);
+    color: #fff;
+    text-transform: uppercase;
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.tabla-empleados td{
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    color: var(--text-dark);
+}
+
+.tabla-empleados tr:nth-child(even){
+    background-color: var(--light);
+}
+
+.tabla-empleados tr:nth-child(odd){
+    background-color: #fff;
+}
+
+.tabla-empleados tr:hover{
+    background-color: #e8e0d8;
+}
+
+.btn-editar,
+.btn-eliminar{
+    margin-right: 8px;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    font-weight: bold;
+    color: #fff;
+}
+
+.btn-editar{
+    background-color:#003f7f;
+}
+
+.btn-editar:hover{
+    background-color:#002d5f;
+}
+
+.btn-eliminar{
+    background-color:#d62828;
+}
+
+.btn-eliminar:hover{
+    background-color:#a31515;
+}
+/*contenido de empleados existentes*/
