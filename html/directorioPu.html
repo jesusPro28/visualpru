@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Universidad Tecnológica de la Huasteca Hidalguense - Noticias</title>
+    <title>UTHH - Directorio Escolar</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/Publico.css">
 </head>
@@ -32,14 +32,12 @@
         </ul>
     </nav>
 </header>
-<main class="contenido">
-    <h1>Título de la página</h1>
 
-    <section class="servicios">
-        <article class="iframe-container">
-            <iframe src="documento.pdf"></iframe>
-        </article>
-    </section>
+<main class="main-news">
+    <div class="news-section">
+        <h1>Directorio Escolar</h1>
+        
+        </div>
 </main>
 
 <footer class="footer">
@@ -57,9 +55,13 @@
     </div>
 </footer>
 
-<script> document.getElementById('year').textContent = new Date().getFullYear();</script>
+<script> 
+    // Actualiza el año en el footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+</script>
 
 <script src="../js/api-config.js"></script>
 <script src="../js/contenido-publico.js"></script>
+
 </body>
 </html>
