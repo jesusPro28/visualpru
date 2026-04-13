@@ -19,7 +19,7 @@
             <a href="RegistroEmpleadosPri.html">Registro</a>
             <a href="EmpleadosExistentesPri.html">Empleados existentes</a>
             <a href="RegistroIncidenciasPri.html">Registro incidencias</a>
-            <a href="ReportesPri.html">Reporte individual</a>
+            <a href="ReportesPri.html">Reportes</a>
         </nav>
     </div>
     <nav class="navbar" aria-label="Navegación principal">
@@ -35,99 +35,99 @@
 </header>
 
 <main>
-    <h1>Administrar Contenido (PDFs)</h1>
+    <h1 class="registro-titulo-page">Administrar Contenido (PDFs)</h1>
 
     <!-- ✅ Subir nuevo -->
-    <h2>Subir nuevo archivo</h2>
-    <form class="form-incidencias" id="form-subir">
-        <fieldset class="form-incidencias-fieldset">
-            <legend class="form-incidencias-legend">Subir archivo</legend>
-            <div class="form-incidencias-group">
-                <label class="form-incidencias-label">Sección</label>
-                <select class="form-incidencias-input" id="seccion-subir">
-                    <option value="directorio">Directorio</option>
-                    <option value="servicio">Servicio</option>
-                </select>
-            </div>
-            <div class="form-incidencias-group">
-                <label class="form-incidencias-label">Título</label>
-                <input class="form-incidencias-input" type="text" id="titulo-subir" required>
-            </div>
-            <div class="form-incidencias-group">
-                <label class="form-incidencias-label">Archivo (PDF)</label>
-                <input class="form-incidencias-input" type="file" id="archivo-subir" accept=".pdf" required>
-            </div>
-            <div class="form-incidencias-buttons">
-                <button type="submit" class="form-incidencias-btn form-incidencias-submit">Subir</button>
-            </div>
-        </fieldset>
-    </form>
-
-    <hr>
-
-    <!-- ✅ Listado -->
-    <h2>Listado de archivos</h2>
-    <div class="form-incidencias-group" style="margin-bottom:15px;">
-        <label class="form-incidencias-label">Filtrar por sección</label>
-        <select class="form-incidencias-input" id="filtro-seccion" style="max-width:200px;">
-            <option value="">-- Todos --</option>
-            <option value="directorio">Directorio</option>
-            <option value="servicio">Servicio</option>
-        </select>
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Sección</th>
-                <th>Título</th>
-                <th>Archivo</th>
-                <th>Fecha</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody id="tbody-archivos">
-            <tr><td colspan="6">Cargando...</td></tr>
-        </tbody>
-    </table>
-
-    <hr>
-
-    <!-- ✅ Editar (oculto hasta que se haga clic en Editar) -->
-    <div id="seccion-editar-form" style="display:none;">
-        <h2>Editar archivo</h2>
-        <form class="form-incidencias" id="form-editar">
-            <fieldset class="form-incidencias-fieldset">
-                <legend class="form-incidencias-legend">Editar archivo</legend>
-                <input type="hidden" id="editar-id">
-                <div class="form-incidencias-group">
-                    <label class="form-incidencias-label">Sección</label>
-                    <select class="form-incidencias-input" id="seccion-editar">
+    <section class="registro-section">
+        <h2 class="registro-title">Subir nuevo archivo</h2>
+        <form id="form-subir">
+            <fieldset class="registro-fieldset">
+                <legend class="registro-legend">Subir archivo</legend>
+                <div class="registro-group">
+                    <label class="registro-label">Sección</label>
+                    <select class="registro-select" id="seccion-subir">
                         <option value="directorio">Directorio</option>
                         <option value="servicio">Servicio</option>
                     </select>
                 </div>
-                <div class="form-incidencias-group">
-                    <label class="form-incidencias-label">Título</label>
-                    <input class="form-incidencias-input" type="text" id="titulo-editar" required>
+                <div class="registro-group">
+                    <label class="registro-label">Título</label>
+                    <input class="registro-input" type="text" id="titulo-subir" required>
                 </div>
-                <div class="form-incidencias-group">
-                    <label class="form-incidencias-label">Reemplazar PDF (opcional)</label>
-                    <input class="form-incidencias-input" type="file" id="archivo-editar" accept=".pdf">
+                <div class="registro-group">
+                    <label class="registro-label">Archivo (PDF)</label>
+                    <input class="registro-input" type="file" id="archivo-subir" accept=".pdf" required>
                 </div>
-                <div class="form-incidencias-buttons">
-                    <button type="reset" class="form-incidencias-btn form-incidencias-reset"
+                <div class="form-buttons">
+                    <button type="submit" class="registro-btn registro-btn--guardar">Subir</button>
+                </div>
+            </fieldset>
+        </form>
+    </section>
+
+    <!-- ✅ Listado -->
+    <section class="registro-section">
+        <h2 class="registro-title">Listado de archivos</h2>
+        <div class="registro-group" style="margin-bottom:15px;">
+            <label class="registro-label">Filtrar por sección</label>
+            <select class="registro-select" id="filtro-seccion" style="max-width:200px;">
+                <option value="">-- Todos --</option>
+                <option value="directorio">Directorio</option>
+                <option value="servicio">Servicio</option>
+            </select>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Sección</th>
+                    <th>Título</th>
+                    <th>Archivo</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tbody-archivos">
+                <tr><td colspan="6">Cargando...</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- ✅ Editar (oculto hasta que se haga clic en Editar) -->
+    <section class="registro-section" id="seccion-editar-form" style="display:none;">
+        <h2 class="registro-title">Editar archivo</h2>
+        <form id="form-editar">
+            <fieldset class="registro-fieldset">
+                <legend class="registro-legend">Editar archivo</legend>
+                <input type="hidden" id="editar-id">
+                <div class="registro-group">
+                    <label class="registro-label">Sección</label>
+                    <select class="registro-select" id="seccion-editar">
+                        <option value="directorio">Directorio</option>
+                        <option value="servicio">Servicio</option>
+                    </select>
+                </div>
+                <div class="registro-group">
+                    <label class="registro-label">Título</label>
+                    <input class="registro-input" type="text" id="titulo-editar" required>
+                </div>
+                <div class="registro-group">
+                    <label class="registro-label">Reemplazar PDF (opcional)</label>
+                    <input class="registro-input" type="file" id="archivo-editar" accept=".pdf">
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="registro-btn registro-btn--cancelar"
                             onclick="document.getElementById('seccion-editar-form').style.display='none'">
                         Cancelar
                     </button>
-                    <button type="submit" class="form-incidencias-btn form-incidencias-submit">
+                    <button type="submit" class="registro-btn registro-btn--guardar">
                         Guardar cambios
                     </button>
                 </div>
             </fieldset>
         </form>
-    </div>
+    </section>
 </main>
 
 <footer class="footer">
