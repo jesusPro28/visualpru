@@ -320,3 +320,140 @@ footer {
     background-color:#a31515;
 }
 /*contenido de empleados existentes*/
+
+/* ============================================
+   CONTENEDOR TABLA
+============================================ */
+
+.table-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+/* ============================================
+   TABLA
+============================================ */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+thead {
+    background: var(--maroon);
+    color: #fff;
+}
+
+thead th {
+    padding: 12px;
+    text-align: left;
+}
+
+tbody tr {
+    border-bottom: 1px solid #eee;
+    transition: background 0.2s;
+}
+
+tbody tr:hover {
+    background: #f9f3e8;
+}
+
+td {
+    padding: 10px;
+}
+
+/* ============================================
+   BOTONES DE ACCIONES
+============================================ */
+
+td:last-child {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+/* estilo base */
+td a {
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* EDITAR (gold) */
+.btn-editar {
+    background: var(--gold);
+    color: #fff;
+}
+
+.btn-editar:hover {
+    background: #a8824d;
+}
+
+/* ELIMINAR */
+.btn-eliminar {
+    background: #d9534f;
+    color: #fff;
+}
+
+.btn-eliminar:hover {
+    background: #c9302c;
+}
+
+/* ============================================
+   MENSAJE VACÍO
+============================================ */
+
+.empty-message {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-muted);
+}
+
+/* ============================================
+   BOTÓN REGISTRAR
+============================================ */
+
+.btn-add {
+    display: inline-block;
+    margin-top: 15px;
+    background: var(--maroon);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: var(--radius);
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-add:hover {
+    background: #7a1829;
+}
+.btn-tipo {
+    background: #ccc;
+    color: #333;
+}
+
+.btn-tipo.activo {
+    background: var(--gold);
+    color: #fff;
+}
+
+.btn-tipo:hover {
+    opacity: 0.85;
+}
+.oculto {
+    display: none;
+}
+
+.admin-list h2 {
+    color: var(--maroon);
+    margin: 0;
+}
