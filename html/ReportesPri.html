@@ -18,7 +18,7 @@
             <a href="RegistroEmpleadosPri.html">Registro</a>
             <a href="EmpleadosExistentesPri.html">Empleados existentes</a>
             <a href="RegistroIncidenciasPri.html">Registro incidencias</a>
-            <a href="ReportesPri.html">Reporte individual</a>
+            <a href="ReportesPri.html">Reportes</a>
         </nav>
     </div>
     <nav class="navbar" aria-label="Navegación principal">
@@ -33,42 +33,93 @@
     </nav>
   </header>
 
-  <h1>Reportes</h1>
-
+  
   <main>
-    <section aria-labelledby="titulo-reporte">
-      <h2 id="titulo-reporte"></h2>
+    <h1>Reportes</h1>
 
-      <form id="form-reporte">
-        <fieldset>
-          <legend>Datos para generar reporte</legend>
+    <section class="main-registro" aria-labelledby="titulo-reporte">
 
-          <div class="form-group" id="grupo-trabajador">
-            <label for="Num_Trabajador">Número de Trabajador:</label>
-            <input type="text" id="Num_Trabajador" name="Num_Trabajador" />
-          </div>
+   
 
-          <div class="form-group">
-            <label for="fechainicio">Fecha inicio:</label>
-            <input type="date" id="fechainicio" name="fechainicio" required />
-          </div>
+    <div class="registro-section">
 
-          <div class="form-group">
-            <label for="fechaFin">Fecha fin:</label>
-            <input type="date" id="fechaFin" name="fechaFin" required />
-          </div>
-        </fieldset>
+        <form id="form-reporte">
 
-        <input type="hidden" id="accion" name="accion" value="individual" />
+            <fieldset class="registro-fieldset">
+                <legend class="registro-legend">
+                    Datos para generar reporte
+                </legend>
 
-        <div class="form-buttons">
-          <button type="reset" onclick="setTimeout(()=>seleccionarTipo('individual'),10)">Limpiar</button>
-          <button type="submit">Generar reporte</button>
-          <button type="button" id="btn-individual" class="btn-tipo activo" onclick="seleccionarTipo('individual')">Individual</button>
-          <button type="button" id="btn-general" class="btn-tipo" onclick="seleccionarTipo('general')">General</button>
-        </div>
-      </form>
-    </section>
+                <div class="registro-group" id="grupo-trabajador">
+                    <label class="registro-label" for="Num_Trabajador">
+                        Número de Trabajador:
+                    </label>
+                    <input class="registro-input"
+                           type="text"
+                           id="Num_Trabajador"
+                           name="Num_Trabajador">
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="fechainicio">
+                        Fecha inicio:
+                    </label>
+                    <input class="registro-input"
+                           type="date"
+                           id="fechainicio"
+                           name="fechainicio"
+                           required>
+                </div>
+
+                <div class="registro-group">
+                    <label class="registro-label" for="fechaFin">
+                        Fecha fin:
+                    </label>
+                    <input class="registro-input"
+                           type="date"
+                           id="fechaFin"
+                           name="fechaFin"
+                           required>
+                </div>
+
+            </fieldset>
+
+            <input type="hidden" id="accion" name="accion" value="individual">
+
+            <div class="form-buttons">
+
+                <button type="reset"
+                        class="registro-btn registro-btn--limpiar"
+                        onclick="setTimeout(()=>seleccionarTipo('individual'),10)">
+                    Limpiar
+                </button>
+
+                <button type="submit"
+                        class="registro-btn registro-btn--guardar">
+                    Generar reporte
+                </button>
+
+                <button type="button"
+                        id="btn-individual"
+                        class="registro-btn btn-tipo activo"
+                        onclick="seleccionarTipo('individual')">
+                    Individual
+                </button>
+
+                <button type="button"
+                        id="btn-general"
+                        class="registro-btn btn-tipo"
+                        onclick="seleccionarTipo('general')">
+                    General
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
   </main>
 
   <footer class="footer">
