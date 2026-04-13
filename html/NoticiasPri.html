@@ -19,7 +19,7 @@
             <a href="RegistroEmpleadosPri.html">Registro</a>
             <a href="EmpleadosExistentesPri.html">Empleados existentes</a>
             <a href="RegistroIncidenciasPri.html">Registro incidencias</a>
-            <a href="ReportesPri.html">Reporte individual</a>
+            <a href="ReportesPri.html">Reportes</a>
         </nav>
     </div>
 
@@ -37,27 +37,47 @@
 
 <h1>Noticias</h1>
 
-<main class="admin-main">
-    <section class="admin-form">
-        <h2>Añadir nueva publicación</h2>
+<main class="main-registro">
 
+    <section class="registro-section">
         <form id="publicacion-form">
-            <label for="titulo">Título</label>
-            <input type="text" id="titulo" name="titulo" required>
+            <fieldset class="registro-fieldset">
+                <legend class="registro-legend">Añadir nueva publicación</legend>
 
-            <label for="contenido">Contenido</label>
-            <textarea id="contenido" name="contenido" rows="6" required></textarea>
+                <div class="registro-group">
+                    <label class="registro-label" for="titulo">Título</label>
+                    <input class="registro-input" type="text" id="titulo" name="titulo" required>
+                </div>
 
-            <label for="fecha">Fecha</label>
-            <input type="date" id="fecha" name="fecha" required>
+                <div class="registro-group">
+                    <label class="registro-label" for="contenido">Contenido</label>
+                    <textarea class="registro-input" id="contenido" name="contenido" rows="6" required></textarea>
+                </div>
 
-            <label for="imagen">Imagen principal</label>
-            <input type="file" id="imagen" name="imagen" accept="image/*">
-            <small>Formatos permitidos: JPG, PNG, GIF, WEBP (máx. 5MB)</small>
+                <div class="registro-group">
+                    <label class="registro-label" for="fecha">Fecha</label>
+                    <input class="registro-input" type="date" id="fecha" name="fecha" required>
+                </div>
 
-            <button type="submit" class="btn-agregar">Guardar publicación</button>
+                <div class="registro-group">
+                    <label class="registro-label" for="imagen">Imagen principal</label>
+                    <input class="registro-input" type="file" id="imagen" name="imagen" accept="image/*">
+                </div>
+
+                <small style="color: var(--text-muted);">
+                    Formatos permitidos: JPG, PNG, GIF, WEBP (máx. 5MB)
+                </small>
+
+                <div class="form-buttons" style="margin-top:15px;">
+                    <button type="submit" class="registro-btn registro-btn--guardar">
+                        Guardar publicación
+                    </button>
+                </div>
+            </fieldset>
         </form>
+
     </section>
+
 </main>
 
 <footer class="footer">
