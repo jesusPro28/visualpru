@@ -889,3 +889,15 @@ text-align:center;
     color: var(--maroon);
     border: 2px solid var(--maroon);
 }
+/* ============================================
+   CONTENEDOR TIPO CARD PARA MAIN DE QUIENES SOMOS Y PERFIL ACADEMICO 
+============================================ */
+
+.main-card {
+    max-width: 1200px;
+    margin: 40px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
