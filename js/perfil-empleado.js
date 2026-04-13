@@ -50,13 +50,15 @@ async function cargarPerfil() {
     document.getElementById('info-puesto').textContent = emp.PUESTO || '—';
     document.getElementById('info-departamento').textContent = emp.DEPARTAMENTO || '—';
 
-    const fotoEl = document.getElementById('foto-perfil');
-    if (emp.foto_perfil) {
-      fotoEl.src = `data:image/jpeg;base64,${emp.foto_perfil}`;
-    } else {
-      fotoEl.src = '../img/805-original.webp';
-    }
+  const fotoEl = document.getElementById('foto-perfil');
 
+if (fotoEl) {
+  if (emp.foto_perfil && emp.foto_perfil.length > 50) {
+    fotoEl.src = `data:image/jpeg;base64,${emp.foto_perfil}`;
+  } else {
+    fotoEl.src = '/img/805-original.webp';
+  }
+}
     // ✅ Alerta de retardos del mes
     const retardos = data.retardosMes || 0;
     const alertaEl = document.getElementById('alerta-retardos');
