@@ -24,7 +24,7 @@
             <a href="RegistroEmpleadosPri.html">Registro</a>
             <a href="EmpleadosExistentesPri.html">Empleados existentes</a>
             <a href="RegistroIncidenciasPri.html">Registro incidencias</a>
-            <a href="ReportesPri.html">Reporte individual</a>
+            <a href="ReportesPri.html">Reportes</a>
 
         </nav>
     </div>
@@ -41,44 +41,60 @@
     </nav>
 
 </header>
-
-<h1>Registro de Incidencias</h1>
-
 <main>
 
-    <section aria-labelledby="titulo-incidencias">
+    <section class="main-regis" aria-labelledby="titulo-incidencias">
 
-        <h2 id="titulo-incidencias"></h2>
+
+    <div class="registro-section">
+<h1>Registro de Incidencias</h1>
 
         <form>
 
-            <fieldset>
-                <legend>Datos de la incidencia</legend>
+            <fieldset class="registro-fieldset">
+                <legend class="registro-legend">Datos de la incidencia</legend>
 
-                <div class="form-group">
-                    <label for="Num_Trabajador">Número de Trabajador:</label>
-                    <input type="text" id="Num_Trabajador" name="Num_Trabajador" required>
+                <div class="registro-group">
+                    <label class="registro-label" for="Num_Trabajador">
+                        Número de Trabajador:
+                    </label>
+                    <input class="registro-input"
+                           type="text"
+                           id="Num_Trabajador"
+                           name="Num_Trabajador"
+                           required>
                 </div>
 
-                <div class="form-group">
-                    <label for="Curp">CURP:</label>
-                    <!-- ✅ readonly y fondo gris para indicar que no es editable -->
-                    <input type="text" id="Curp" name="Curp" readonly
-                           style="background-color:#f0f0f0;cursor:not-allowed;"
+                <div class="registro-group">
+                    <label class="registro-label" for="Curp">CURP:</label>
+                    <input class="registro-input"
+                           type="text"
+                           id="Curp"
+                           name="Curp"
+                           readonly
+                           style="background-color:#f0f0f0; cursor:not-allowed;"
                            placeholder="Se llena automáticamente">
                 </div>
 
-                <div class="form-group">
-                    <label for="fecha">Fecha de la incidencia:</label>
-                    <input type="date" id="fecha" name="fecha" required>
+                <div class="registro-group">
+                    <label class="registro-label" for="fecha">
+                        Fecha de la incidencia:
+                    </label>
+                    <input class="registro-input"
+                           type="date"
+                           id="fecha"
+                           name="fecha"
+                           required>
                 </div>
 
-                <div class="form-group">
-                    <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion"
+                <div class="registro-group">
+                    <label class="registro-label" for="descripcion">
+                        Descripción:
+                    </label>
+                    <textarea class="registro-input"
+                              id="descripcion"
                               name="descripcion"
                               rows="5"
-                              cols="40"
                               placeholder="Describe la incidencia..."
                               required></textarea>
                 </div>
@@ -86,13 +102,20 @@
             </fieldset>
 
             <div class="form-buttons">
-                <button type="reset">Limpiar</button>
-                <button type="submit">Guardar incidencia</button>
+                <button type="reset" class="registro-btn registro-btn--limpiar">
+                    Limpiar
+                </button>
+
+                <button type="submit" class="registro-btn registro-btn--guardar">
+                    Guardar incidencia
+                </button>
             </div>
 
         </form>
 
-    </section>
+    </div>
+
+</section>
 
 </main>
 
