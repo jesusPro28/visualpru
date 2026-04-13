@@ -63,21 +63,34 @@ async function cargarPublicaciones() {
           <summary>Editar publicación</summary>
 
           <form class="form-editar" data-id="${pub.id}">
-            <label>Título</label>
-            <input type="text" name="titulo" value="${pub.titulo || ''}" required>
+            <fieldset class="registro-fieldset">
+              <legend class="registro-legend">Editar publicación</legend>
+              
+              <div class="registro-group">
+                <label class="registro-label">Título</label>
+                <input class="registro-input" type="text" name="titulo" value="${pub.titulo || ''}" required>
+              </div>
 
-            <label>Contenido</label>
-            <textarea name="contenido" rows="6" required>${pub.contenido || ''}</textarea>
+              <div class="registro-group">
+                <label class="registro-label">Contenido</label>
+                <textarea class="registro-input" name="contenido" rows="6" required>${pub.contenido || ''}</textarea>
+              </div>
 
-            <label>Fecha</label>
-            <input type="date" name="fecha" value="${pub.fecha ? pub.fecha.substring(0, 10) : ''}">
+              <div class="registro-group">
+                <label class="registro-label">Fecha</label>
+                <input class="registro-input" type="date" name="fecha" value="${pub.fecha ? pub.fecha.substring(0, 10) : ''}">
+              </div>
 
-            <label>Cambiar imagen</label>
-            <input type="file" name="imagen" accept="image/*">
+              <div class="registro-group">
+                <label class="registro-label">Cambiar imagen</label>
+                <input class="registro-input" type="file" name="imagen" accept="image/*">
+              </div>
 
-            <div class="form-actions">
-              <button type="submit" class="btn-editar">Actualizar</button>
-            </div>
+              <div class="form-buttons">
+                <button type="button" class="registro-btn registro-btn--cancelar" onclick="this.closest('details').removeAttribute('open')">Cancelar</button>
+                <button type="submit" class="registro-btn registro-btn--guardar">Actualizar</button>
+              </div>
+            </fieldset>
           </form>
 
           <button class="btn-eliminar" data-id="${pub.id}" data-titulo="${(pub.titulo || '').replace(/"/g, '&quot;')}">Eliminar publicación</button>
