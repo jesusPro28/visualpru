@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estimación de Retardos — UTHH</title>
+  <link rel="stylesheet" href="PriFilosofia.css">
+  <link rel="stylesheet" href="ModuloFaltaCss.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="top-bar">
+      <nav aria-label="Enlaces superiores">
+        <div style="display:flex;align-items:center;margin-bottom:10px;gap:10px;">
+          <img src="img/805-original.webp" alt="logo" width="40">
+          <div style="color:#fff;font-weight:bold;">UTHH</div>
+        </div>
+        <a href="Administrador.html">Administrador</a>
+        <a href="registro.html">Registro</a>
+        <a href="listado.html">Empleados existentes</a>
+        <a href="incidencias.html">Registro incidencias</a>
+        <a href="Reporteindividual.html">Reporte individual</a>
+      </nav>
+    </div>
+    <nav class="navbar" aria-label="Navegación principal">
+      <ul>
+        <a href="adminNot.html">Noticias</a>
+        <a href="ListadoNot.html">Listado Noticias</a>
+        <a href="listadoA.html">Modificar Filosofía</a>
+        <a href="contenidoAdmin.html">Directorio y Servicios</a>
+        <a href="login.html">Cerrar sesión</a>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="modulo-container">
+
+      <h2 class="modulo-titulo">Estimación de Retardos del Sistema</h2>
+
+      <!-- ===================== SECCIÓN ANUAL ===================== -->
+      <div class="anual-header">
+        <h3 class="anual-titulo">Retardos por Mes</h3>
+        <div class="anual-selector">
+          <label for="selectorAnio">Año:</label>
+          <select id="selectorAnio" onchange="cambiarAnio()">
+            <option value="2024">2024</option>
+            <option value="2025" selected>2025</option>
+            <option value="2026">2026</option>
+          </select>
+          <span id="anio-cargando" class="badge-cargando" style="display:none;">Cargando...</span>
+        </div>
+      </div>
+
+      <!-- Grid de 12 tarjetas, una por mes -->
+      <div class="meses-grid" id="mesesGrid">
+        <!-- Se generan dinámicamente en JS -->
+      </div>
+
+      <!-- ===================== SECCIÓN MODELO MATEMÁTICO ===================== -->
+      <div class="modulo-seccion" style="margin-top:40px;">
+        <h3>Modelo Matemático Generado</h3>
+        <p class="modulo-desc" style="margin-bottom:12px;">
+          Se toma como condición inicial los retardos de julio–octubre 2025 y se compara con noviembre 2025–marzo 2026.
+        </p>
+        <table style="border-collapse:collapse;margin:16px auto;background:var(--light);border:2px solid var(--gold);width:80%;">
+          <tr>
+            <td style="border:1px solid var(--maroon);padding:10px;"><strong>Periodo</strong></td>
+            <td style="border:1px solid var(--maroon);padding:10px;"><strong>Tiempo</strong></td>
+            <td style="border:1px solid var(--maroon);padding:10px;"><strong>Retardos</strong></td>
+          </tr>
+          <tr>
+            <td style="border:1px solid var(--maroon);padding:10px;">1 julio 2025-31 octubre 2025</td>
+            <td style="border:1px solid var(--maroon);padding:10px;">0 meses</td>
+            <td style="border:1px solid var(--maroon);padding:10px;" id="nr_initial">—</td>
+          </tr>
+          <tr>
+            <td style="border:1px solid var(--maroon);padding:10px;">1 noviembre 2025-31 marzo 2026</td>
+            <td style="border:1px solid var(--maroon);padding:10px;">5 meses</td>
+            <td style="border:1px solid var(--maroon);padding:10px;" id="nr_final">—</td>
+          </tr>
+        </table>
+        <p id="formula_modelo" style="font-size:1.2rem;font-weight:bold;color:#6b0f1a;text-align:center;">
+          N(t) = N₀e^(kt)
+        </p>
+      </div>
+
+      <!-- CALCULAR RETARDOS -->
+      <div class="modulo-seccion">
+        <h3>Estimación de Retardos en N Meses</h3>
+        <form>
+          <label for="meses">Ingrese la cantidad de meses para calcular cuantos retardos habra en ese tiempo:</label><br>
+          <input type="number" id="meses" min="1" step="1"><br><br>
+          <button type="button" onclick="calcularRetardos()">Calcular</button><br><br>
+          <p id="resultado_meses"></p>
+        </form>
+
+        
+
+        <div id="grafica-retardos-container" style="display:none;margin-top:24px;">
+          <h4 style="color:var(--maroon);margin-bottom:8px;">Curva de Predicción — Retardos por Mes</h4>
+          <canvas id="graficaRetardos" height="120"></canvas>
+        </div>
+      </div>
+
+      <!-- CALCULAR TIEMPO -->
+      <div class="modulo-seccion">
+        <h3>Estimación de Tiempo para Alcanzar N Retardos</h3>
+        <form>
+          <label for="retardos">Ingrese el número de retardos para calcular en cuanto tiempo se llegara a esa cantidad:</label><br>
+          <input type="number" id="retardos" min="1" step="1"><br><br>
+          <button type="button" onclick="calcularTiempo()">Calcular</button><br><br>
+          <p id="resultado"></p>
+        </form>
+
+        
+
+        <div id="grafica-tiempo-container" style="display:none;margin-top:24px;">
+          <h4 style="color:var(--maroon);margin-bottom:8px;">Curva de Predicción — Tiempo para Alcanzar N Retardos</h4>
+          <canvas id="graficaTiempo" height="120"></canvas>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ===================== MODAL EMPLEADOS ===================== -->
+  <div id="modalOverlay" class="modal-overlay" onclick="cerrarModal(event)" style="display:none;">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
+      <div class="modal-header">
+        <h3 id="modalTitulo">Empleados con Retardo</h3>
+        <button class="modal-cerrar" onclick="cerrarModalBtn()" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Contenido dinámico -->
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <section>
+        <h3>Universidad Tecnológica de la Huasteca Hidalguense</h3>
+        <p>Dirección: Carretera Huejutla – Chalahuiyapa Km. 3.5, Hidalgo</p>
+        <p>Teléfono: 789 896 2083</p>
+        <p>Correo: contacto@uthh.edu.mx</p>
+      </section>
+      <section>
+        <p>&copy; 2026 UTHH. Todos los derechos reservados.</p>
+      </section>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="Modulo_faltas.js"></script>
+</body>
+</html>
