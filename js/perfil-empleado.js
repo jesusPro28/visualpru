@@ -118,17 +118,46 @@ function renderHorario(horario) {
   }
 }
 
-/* ─── Renderizar estados de puntualidad ─── */
+/* ─── Utilidad: formatear fecha ISO → DD/MM/YYYY ─── */
+function formatearFecha(fechaStr) {
+  if (!fechaStr) return '—';
+  const d = new Date(fechaStr);
+  if (isNaN(d)) return fechaStr;
+  const dia  = String(d.getUTCDate()).padStart(2, '0');
+  const mes  = String(d.getUTCMonth() + 1).padStart(2, '0');
+  const anio = d.getUTCFullYear();
+  return `${dia}/${mes}/${anio}`;
+}
+
+/* ─── Renderizar estados de puntualidad con paginación ─── */
+let _estadosPaginaActual = 1;
+const _estadosPorPagina  = 5;
+let   _estadosDatos      = [];
+
 function renderEstados(estados) {
-  const tbody = document.getElementById('tbody-estados');
+  _estadosDatos       = estados || [];
+  _estadosPaginaActual = 1;
+  _dibujarPaginaEstados();
+}
+
+function _dibujarPaginaEstados() {
+  const tbody    = document.getElementById('tbody-estados');
+  const paginador = document.getElementById('paginador-estados');
   if (!tbody) return;
 
-  if (!estados || estados.length === 0) {
+  if (_estadosDatos.length === 0) {
     tbody.innerHTML = '<tr><td colspan="2" style="text-align:center;">Sin registros.</td></tr>';
+    if (paginador) paginador.innerHTML = '';
     return;
   }
 
-  tbody.innerHTML = estados.map(e => {
+  const totalPaginas = Math.ceil(_estadosDatos.length / _estadosPorPagina);
+  const inicio       = (_estadosPaginaActual - 1) * _estadosPorPagina;
+  const fin          = inicio + _estadosPorPagina;
+  const pagina       = _estadosDatos.slice(inicio, fin);
+
+  // ── Filas ──
+  tbody.innerHTML = pagina.map(e => {
     const color = e.ESTATUS === 'PUNTUAL'
       ? '#28a745'
       : e.ESTATUS === 'RETARDO'
@@ -138,11 +167,53 @@ function renderEstados(estados) {
           : '#dc3545';
     return `
       <tr>
-        <td>${e.FECHA || '—'}</td>
+        <td>${formatearFecha(e.FECHA)}</td>
         <td><span style="color:${color};font-weight:bold;">${e.ESTATUS || '—'}</span></td>
       </tr>
     `;
   }).join('');
+
+  // ── Paginador ──
+  if (!paginador) return;
+
+  const btnStyle = (activo) => `
+    display:inline-block;padding:6px 12px;margin:2px;border-radius:4px;cursor:pointer;
+    font-size:13px;border:1px solid #6b1a2a;
+    background:${activo ? '#6b1a2a' : '#fff'};
+    color:${activo ? '#fff' : '#6b1a2a'};
+    font-weight:${activo ? 'bold' : 'normal'};
+  `;
+
+  let html = `<div style="text-align:center;margin-top:10px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px;">`;
+
+  // Botón anterior
+  html += `<button onclick="_cambiarPaginaEstados(${_estadosPaginaActual - 1})"
+    style="${btnStyle(false)}opacity:${_estadosPaginaActual === 1 ? '0.4' : '1'};"
+    ${_estadosPaginaActual === 1 ? 'disabled' : ''}>&#8592; Ant</button>`;
+
+  // Números de página
+  for (let i = 1; i <= totalPaginas; i++) {
+    html += `<button onclick="_cambiarPaginaEstados(${i})"
+      style="${btnStyle(i === _estadosPaginaActual)}">${i}</button>`;
+  }
+
+  // Botón siguiente
+  html += `<button onclick="_cambiarPaginaEstados(${_estadosPaginaActual + 1})"
+    style="${btnStyle(false)}opacity:${_estadosPaginaActual === totalPaginas ? '0.4' : '1'};"
+    ${_estadosPaginaActual === totalPaginas ? 'disabled' : ''}>Sig &#8594;</button>`;
+
+  html += `<span style="font-size:12px;color:#888;margin-left:8px;">
+    Página ${_estadosPaginaActual} de ${totalPaginas} (${_estadosDatos.length} registros)
+  </span></div>`;
+
+  paginador.innerHTML = html;
+}
+
+function _cambiarPaginaEstados(nuevaPagina) {
+  const totalPaginas = Math.ceil(_estadosDatos.length / _estadosPorPagina);
+  if (nuevaPagina < 1 || nuevaPagina > totalPaginas) return;
+  _estadosPaginaActual = nuevaPagina;
+  _dibujarPaginaEstados();
 }
 
 /* ─── Cargar asistencias ─── */
@@ -166,7 +237,7 @@ async function cargarAsistencias() {
 
     tbody.innerHTML = rows.map(a => `
       <tr>
-        <td>${a.FECHA || '—'}</td>
+        <td>${formatearFecha(a.FECHA)}</td>
         <td>${a.ENTRADA || '—'}</td>
         <td>${a.SALIDA  || '—'}</td>
         <td>${a['ID-INCIDENCIA'] ? 'Sí' : 'No'}</td>
@@ -200,7 +271,7 @@ async function cargarIncidencias() {
 
     tbody.innerHTML = rows.map(i => `
       <tr>
-        <td>${i.FECHA       || '—'}</td>
+        <td>${formatearFecha(i.FECHA)}</td>
         <td>${i.CURP        || '—'}</td>
         <td>${i.DESCRIPCION || '—'}</td>
       </tr>
@@ -296,9 +367,7 @@ async function cargarMisJustificaciones() {
         : j.estado === 'RECHAZADA'
           ? '#dc3545'
           : '#ffc107';
-      const fechaEnvio = j.fecha_envio
-        ? new Date(j.fecha_envio).toLocaleDateString('es-MX')
-        : '—';
+      const fechaEnvio = formatearFecha(j.fecha_envio);
       return `
         <tr>
           <td>${j.fecha_tardanza || '—'}</td>
