@@ -13,15 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const tipo = document.getElementById('tipo').value;
-    const usuario = document.getElementById('usuario').value.trim();
+    const tipo     = document.getElementById('tipo').value;
+    const usuario  = document.getElementById('usuario').value.trim();
     const password = document.getElementById('password').value;
 
-    if (!tipo) { mostrarAlerta('Selecciona un tipo de usuario.', 'warning'); return; }
-    if (!usuario || !password) { mostrarAlerta('Ingresa usuario y contraseña.', 'warning'); return; }
+    if (!tipo)                { mostrarAlerta('Selecciona un tipo de usuario.', 'warning'); return; }
+    if (!usuario || !password){ mostrarAlerta('Ingresa usuario y contraseña.', 'warning'); return; }
 
     const btn = form.querySelector('.login-btn');
-    btn.disabled = true;
+    btn.disabled    = true;
     btn.textContent = 'Ingresando...';
 
     try {
@@ -37,12 +37,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const res = await apiFetch(endpoint, { method: 'POST', body });
       if (!res) return;
+
       const data = await res.json();
 
       if (!res.ok) {
         mostrarAlerta(data.msg || 'Credenciales incorrectas.', 'error');
         return;
       }
+
+      // ── Validar que el tipo seleccionado coincida con el puesto real ──
+      if (tipo !== 'Administrador') {
+        const puestoReal       = (data.usuario?.puesto || '').toUpperCase().trim();
+        const tipoSeleccionado = tipo.toUpperCase().trim();
+
+        if (puestoReal !== tipoSeleccionado) {
+          mostrarAlerta(
+            'El tipo de usuario seleccionado no coincide con tu perfil. ' +
+            'Selecciona "' + data.usuario.puesto + '".',
+            'error'
+          );
+          return;
+        }
+      }
+      // ─────────────────────────────────────────────────────────────────
 
       setToken(data.token);
       setUsuario(data.usuario);
@@ -60,14 +77,15 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('Error de conexión:', err);
       mostrarAlerta('No se pudo conectar con el servidor. Verifica tu conexión a internet.', 'error');
     } finally {
-      btn.disabled = false;
+      btn.disabled    = false;
       btn.textContent = 'Ingresar';
     }
   });
 
-  window.togglePassword = function() {
+  // ── Mostrar/ocultar contraseña ──
+  window.togglePassword = function () {
     const passInput = document.getElementById('password');
-    const icon = document.getElementById('toggleIcon');
+    const icon      = document.getElementById('toggleIcon');
     if (passInput.type === 'password') {
       passInput.type = 'text';
       if (icon) icon.textContent = '🙈';
