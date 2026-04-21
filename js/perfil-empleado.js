@@ -216,7 +216,11 @@ function _cambiarPaginaEstados(nuevaPagina) {
   _dibujarPaginaEstados();
 }
 
-/* ─── Cargar asistencias ─── */
+/* ─── Cargar asistencias con paginación ─── */
+let _asistenciasPaginaActual = 1;
+const _asistenciasPorPagina  = 8;
+let   _asistenciasDatos      = [];
+
 async function cargarAsistencias() {
   const tbody = document.getElementById('tbody-asistencias');
   if (!tbody) return;
@@ -235,19 +239,79 @@ async function cargarAsistencias() {
       return;
     }
 
-    tbody.innerHTML = rows.map(a => `
-      <tr>
-        <td>${formatearFecha(a.FECHA)}</td>
-        <td>${a.ENTRADA || '—'}</td>
-        <td>${a.SALIDA  || '—'}</td>
-        <td>${a['ID-INCIDENCIA'] ? 'Sí' : 'No'}</td>
-      </tr>
-    `).join('');
+    _asistenciasDatos        = rows;
+    _asistenciasPaginaActual = 1;
+    _dibujarPaginaAsistencias();
 
   } catch (err) {
     console.error('Error en cargarAsistencias:', err);
     if (tbody) tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:red;">Error de conexión.</td></tr>';
   }
+}
+
+function _dibujarPaginaAsistencias() {
+  const tbody    = document.getElementById('tbody-asistencias');
+  const paginador = document.getElementById('paginador-asistencias');
+  if (!tbody) return;
+
+  const totalPaginas = Math.ceil(_asistenciasDatos.length / _asistenciasPorPagina);
+  const inicio       = (_asistenciasPaginaActual - 1) * _asistenciasPorPagina;
+  const fin          = inicio + _asistenciasPorPagina;
+  const pagina       = _asistenciasDatos.slice(inicio, fin);
+
+  // ── Filas ──
+  tbody.innerHTML = pagina.map(a => `
+    <tr>
+      <td>${formatearFecha(a.FECHA)}</td>
+      <td>${a.ENTRADA || '—'}</td>
+      <td>${a.SALIDA  || '—'}</td>
+      <td>${a['ID-INCIDENCIA'] ? 'Sí' : 'No'}</td>
+    </tr>
+  `).join('');
+
+  // ── Paginador ──
+  if (!paginador) return;
+
+  if (totalPaginas <= 1) {
+    paginador.innerHTML = '';
+    return;
+  }
+
+  const btnStyle = (activo) => `
+    display:inline-block;padding:6px 12px;margin:2px;border-radius:4px;cursor:pointer;
+    font-size:13px;border:1px solid #6b1a2a;
+    background:${activo ? '#6b1a2a' : '#fff'};
+    color:${activo ? '#fff' : '#6b1a2a'};
+    font-weight:${activo ? 'bold' : 'normal'};
+  `;
+
+  let html = `<div style="text-align:center;margin-top:10px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px;">`;
+
+  html += `<button onclick="_cambiarPaginaAsistencias(${_asistenciasPaginaActual - 1})"
+    style="${btnStyle(false)}opacity:${_asistenciasPaginaActual === 1 ? '0.4' : '1'};"
+    ${_asistenciasPaginaActual === 1 ? 'disabled' : ''}>&#8592; Ant</button>`;
+
+  for (let i = 1; i <= totalPaginas; i++) {
+    html += `<button onclick="_cambiarPaginaAsistencias(${i})"
+      style="${btnStyle(i === _asistenciasPaginaActual)}">${i}</button>`;
+  }
+
+  html += `<button onclick="_cambiarPaginaAsistencias(${_asistenciasPaginaActual + 1})"
+    style="${btnStyle(false)}opacity:${_asistenciasPaginaActual === totalPaginas ? '0.4' : '1'};"
+    ${_asistenciasPaginaActual === totalPaginas ? 'disabled' : ''}>Sig &#8594;</button>`;
+
+  html += `<span style="font-size:12px;color:#888;margin-left:8px;">
+    Página ${_asistenciasPaginaActual} de ${totalPaginas} (${_asistenciasDatos.length} registros)
+  </span></div>`;
+
+  paginador.innerHTML = html;
+}
+
+function _cambiarPaginaAsistencias(nuevaPagina) {
+  const totalPaginas = Math.ceil(_asistenciasDatos.length / _asistenciasPorPagina);
+  if (nuevaPagina < 1 || nuevaPagina > totalPaginas) return;
+  _asistenciasPaginaActual = nuevaPagina;
+  _dibujarPaginaAsistencias();
 }
 
 /* ─── Cargar incidencias ─── */
