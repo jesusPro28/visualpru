@@ -92,8 +92,22 @@
       <div class="modulo-seccion">
         <h3>Estimación de Retardos en t Meses</h3>
         <form>
-          <label for="meses">Ingrese la cantidad de meses para calcular cuantos retardos habra en ese tiempo:</label><br>
-          <input type="number" id="meses" min="1" step="1"><br><br>
+          <label for="meses">Seleccione la cantidad de meses para calcular cuántos retardos habrá en ese tiempo:</label><br>
+          <select id="meses" style="padding:10px 14px;border:2px solid #ccc;border-radius:6px;font-size:14px;width:200px;color:#222;background:#fff;cursor:pointer;transition:border-color 0.3s;">
+            <option value="" disabled selected>-- Selecciona --</option>
+            <option value="1">1 mes</option>
+            <option value="2">2 meses</option>
+            <option value="3">3 meses</option>
+            <option value="4">4 meses</option>
+            <option value="5">5 meses</option>
+            <option value="6">6 meses</option>
+            <option value="7">7 meses</option>
+            <option value="8">8 meses</option>
+            <option value="9">9 meses</option>
+            <option value="10">10 meses</option>
+            <option value="11">11 meses</option>
+            <option value="12">12 meses</option>
+          </select><br><br>
           <button type="button" onclick="calcularRetardos()">Calcular</button><br><br>
           <p id="resultado_meses"></p>
         </form>
@@ -110,8 +124,10 @@
       <div class="modulo-seccion">
         <h3>Estimación de Tiempo para Alcanzar N Retardos</h3>
         <form>
-          <label for="retardos">Ingrese el número de retardos para calcular en cuanto tiempo se llegara a esa cantidad:</label><br>
-          <input type="number" id="retardos" min="1" step="1"><br><br>
+          <label for="retardos">Ingrese el número de retardos (máximo 200) para calcular en cuánto tiempo se llegará a esa cantidad:</label><br>
+          <input type="number" id="retardos" min="1" max="200" step="1"
+                 oninput="if(this.value>200){this.value=200;document.getElementById('aviso-retardos').style.display='inline';}else{document.getElementById('aviso-retardos').style.display='none';}">
+          <span id="aviso-retardos" style="display:none;margin-left:8px;color:#721c24;font-size:13px;font-weight:bold;">⚠ Máximo 200 retardos</span><br><br>
           <button type="button" onclick="calcularTiempo()">Calcular</button><br><br>
           <p id="resultado"></p>
         </form>
