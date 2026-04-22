@@ -432,7 +432,7 @@ function obtenerTrabajadoresEnRiesgo() {
   let opcionesHtml = '';
   if (trabajadoresEnRiesgo.length > 0) {
     trabajadoresEnRiesgo.forEach(emp => {
-      opcionesHtml += `<option value="${emp.numero}">Trabajador #${emp.numero} (${emp.total} retardos)</option>`;
+      opcionesHtml += `<option value="${emp.numero}">Trabajador  ${emp.numero} (${emp.total} retardos)</option>`;
     });
   }
 
