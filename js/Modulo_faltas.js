@@ -471,7 +471,7 @@ function obtenerTrabajadoresEnRiesgo() {
         onclick="prepararEnvio('${cardId}')"
         ${trabajadoresEnRiesgo.length === 0 ? 'disabled' : ''}
       >
-        <span class="notif-btn-icono">🔔</span> Registrar Notificación
+        <span class="notif-btn-icono"></span> Registrar Notificación
       </button>
     </div>
   `;
