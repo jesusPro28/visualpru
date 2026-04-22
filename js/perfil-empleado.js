@@ -347,50 +347,122 @@ async function cargarIncidencias() {
   }
 }
 
-/* ─── Cargar notificaciones ─── */
+/* ─── Cargar notificaciones (sistema + retardos) ─── */
 async function cargarNotificaciones() {
   const contenedor = document.getElementById('lista-notificaciones');
   if (!contenedor) return;
 
+  contenedor.innerHTML = '<p style="text-align:center;color:#888;">Cargando notificaciones...</p>';
+
   try {
-    const res = await apiFetch('/notificaciones');
-    if (!res || !res.ok) {
-      contenedor.innerHTML = '<p style="color:red;text-align:center;">Error al cargar notificaciones.</p>';
+    // Peticiones en paralelo: notificaciones del sistema + notificaciones de retardo
+    const [resNotif, resRetardo] = await Promise.all([
+      apiFetch('/notificaciones'),
+      apiFetch('/notificaciones/retardo')
+    ]);
+
+    const dataSistema  = (resNotif && resNotif.ok)   ? await resNotif.json()   : {};
+    const dataRetardo  = (resRetardo && resRetardo.ok) ? await resRetardo.json() : {};
+
+    const notifsSistema  = dataSistema.notificaciones        || [];
+    const notifsRetardo  = dataRetardo.notificacionesRetardo  || [];
+
+    // Normalizar retardos al mismo formato que las del sistema
+    // (origen: 'retardo' para distinguirlas visualmente)
+    const retardosNorm = notifsRetardo.map(r => ({
+      id:       r.id,
+      mensaje:  r.mensaje,
+      fecha:    r.fecha_registro,
+      leida:    true,          // la tabla no tiene campo leída → siempre se muestran como informativas
+      origen:   'retardo'
+    }));
+
+    const sistemaaNorm = notifsSistema.map(n => ({
+      id:      n.id,
+      mensaje: n.mensaje,
+      fecha:   n.fecha,
+      leida:   !!n.leida,
+      origen:  'sistema'
+    }));
+
+    // Combinar y ordenar por fecha descendente
+    const todas = [...sistemaaNorm, ...retardosNorm].sort((a, b) => {
+      return new Date(b.fecha || 0) - new Date(a.fecha || 0);
+    });
+
+    if (todas.length === 0) {
+      contenedor.innerHTML = '<p style="text-align:center;color:#888;">No tienes notificaciones.</p>';
       return;
     }
 
-    const data = await res.json();
-    const notifs = data.notificaciones || [];
+    // Separar por sección para mostrar encabezados si hay de ambos tipos
+    const tieneSistema = sistemaaNorm.length > 0;
+    const tieneRetardo = retardosNorm.length > 0;
 
-    if (notifs.length === 0) {
-      contenedor.innerHTML = '<p style="text-align:center;">No tienes notificaciones.</p>';
-      return;
+    let html = '';
+
+    if (tieneSistema && tieneRetardo) {
+      // Mostrar todas mezcladas cronológicamente pero con etiqueta de origen
+      html = todas.map(n => _renderNotificacion(n, true)).join('');
+    } else {
+      html = todas.map(n => _renderNotificacion(n, false)).join('');
     }
 
-    contenedor.innerHTML = notifs.map(n => {
-      const leida = n.leida ? 'opacity:0.6;' : 'font-weight:bold;';
-      const fecha = n.fecha ? new Date(n.fecha).toLocaleDateString('es-MX') : '';
-      return `
-        <div style="${leida}background:#f8f9fa;border-left:4px solid #6b1a2a;
-                     padding:12px 15px;margin-bottom:10px;border-radius:4px;
-                     display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
-          <div>
-            <span style="font-size:13px;color:#555;">${fecha}</span><br>
-            <span>${n.mensaje || '—'}</span>
-          </div>
-          ${!n.leida ? `<button onclick="marcarLeida(${n.id})"
-            style="background:#6b1a2a;color:#fff;border:none;padding:5px 12px;
-                   border-radius:4px;cursor:pointer;font-size:12px;white-space:nowrap;">
-            Marcar leída
-          </button>` : '<span style="font-size:12px;color:#28a745;">✓ Leída</span>'}
-        </div>
-      `;
-    }).join('');
+    contenedor.innerHTML = html;
 
   } catch (err) {
     console.error('Error en cargarNotificaciones:', err);
     contenedor.innerHTML = '<p style="color:red;text-align:center;">Error de conexión.</p>';
   }
+}
+
+/* ─── Renderizar una tarjeta de notificación ─── */
+function _renderNotificacion(n, mostrarEtiqueta) {
+  const esRetardo = n.origen === 'retardo';
+  const colorBorde = esRetardo ? '#e67e22' : '#6b1a2a';
+  const colorFondo = esRetardo ? '#fff8f2' : '#f8f9fa';
+  const opacidad   = n.leida ? 'opacity:0.65;' : '';
+  const peso       = n.leida ? '' : 'font-weight:600;';
+
+  const fecha = n.fecha
+    ? new Date(n.fecha).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' })
+    : '';
+
+  const etiquetaHtml = mostrarEtiqueta
+    ? `<span style="font-size:11px;padding:2px 8px;border-radius:10px;
+                    background:${esRetardo ? '#e67e22' : '#6b1a2a'};color:#fff;
+                    margin-left:8px;vertical-align:middle;">
+        ${esRetardo ? '⚠ Retardo' : '🔔 Sistema'}
+       </span>`
+    : '';
+
+  const accionHtml = esRetardo
+    ? '<span style="font-size:12px;color:#e67e22;white-space:nowrap;">ℹ Informativa</span>'
+    : (!n.leida
+        ? `<button onclick="marcarLeida(${n.id})"
+             style="background:#6b1a2a;color:#fff;border:none;padding:5px 12px;
+                    border-radius:4px;cursor:pointer;font-size:12px;white-space:nowrap;">
+             Marcar leída
+           </button>`
+        : '<span style="font-size:12px;color:#28a745;">✓ Leída</span>'
+      );
+
+  return `
+    <div style="${opacidad}background:${colorFondo};border-left:4px solid ${colorBorde};
+                 padding:12px 15px;margin-bottom:10px;border-radius:4px;
+                 display:flex;justify-content:space-between;align-items:flex-start;gap:10px;">
+      <div style="flex:1;min-width:0;">
+        <div style="margin-bottom:4px;">
+          <span style="font-size:12px;color:#777;">${fecha}</span>
+          ${etiquetaHtml}
+        </div>
+        <span style="${peso}font-size:14px;line-height:1.5;word-break:break-word;">
+          ${n.mensaje || '—'}
+        </span>
+      </div>
+      <div style="flex-shrink:0;">${accionHtml}</div>
+    </div>
+  `;
 }
 
 /* ─── Marcar notificación como leída ─── */
