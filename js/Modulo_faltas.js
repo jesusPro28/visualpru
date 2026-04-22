@@ -740,4 +740,20 @@ function calcularTiempo() {
     'tiempo'                          // Tipo de cálculo
   );
 }
+/**
+ * Función puente que falta para conectar la UI con la lógica de envío
+ */
+function prepararEnvio(cardId) {
+  const select = document.getElementById(`${cardId}-select-trabajador`);
+  
+  if (!select) {
+    console.error("No se encontró el selector de trabajador.");
+    return;
+  }
+
+  const numTrabajador = select.value;
+  
+  // Llamamos a la función que ya tienes definida en tu JS
+  enviarNotificacion(cardId, numTrabajador);
+}
 
