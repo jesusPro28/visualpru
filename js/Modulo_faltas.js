@@ -4,6 +4,9 @@
 
 const apiUrl = 'https://api-asistencia.vercel.app';
 
+
+const notificacionUrl = 'https://api-asistencia.vercel.app/api/notificaciones';
+
 const MESES_NOMBRES = [
   'Enero','Febrero','Marzo','Abril','Mayo','Junio',
   'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
@@ -356,9 +359,212 @@ function mostrarCargando(estado) {
   document.getElementById('anio-cargando').style.display = estado ? 'inline-flex' : 'none';
 }
 
-/* ────────────────────────────────────────────────
+/* ════════════════════════════════════════════════
+   NUEVO — TARJETA DE NOTIFICACIÓN DE RIESGO
+   ────────────────────────────────────────────────
+   Renderiza (o actualiza) la tarjeta de alerta encima
+   de la gráfica de resultados, sin tocar la lógica
+   matemática existente.
+   ════════════════════════════════════════════════ */
+
+/**
+ * Determina el trabajador con MÁS retardos en el período
+ * de referencia (jul 2025 – mar 2026) y lo devuelve como
+ * string, o null si no hay datos.
+ */
+function obtenerTrabajadorEnRiesgo() {
+  if (!_estadosCache) return null;
+
+  const retardos = filtrarRetardos(_estadosCache, '2025-07-01', '2026-03-31');
+  if (retardos.length === 0) return null;
+
+  const conteo = {};
+  retardos.forEach(item => {
+    const num =
+      item['NUM-TRABAJADOR'] ||
+      item.NUM_TRABAJADOR    ||
+      item.num_trabajador    ||
+      item.ID_EMPLEADO       ||
+      item.id_empleado       ||
+      null;
+    if (num === null) return;
+    const clave = String(num);
+    conteo[clave] = (conteo[clave] || 0) + 1;
+  });
+
+  if (Object.keys(conteo).length === 0) return null;
+
+  // Trabajador con más retardos acumulados = mayor riesgo
+  return Object.entries(conteo).sort((a, b) => b[1] - a[1])[0][0];
+}
+
+/**
+ * Muestra u oculta la tarjeta de notificación.
+ * @param {string} containerId  - ID del div contenedor de la sección (padre del botón Calcular)
+ * @param {string} cardId       - ID único de la tarjeta a crear/actualizar
+ * @param {string} graficaId    - ID del div de la gráfica (la tarjeta se inserta antes de él)
+ * @param {number} valorCalculado - Resultado numérico de la predicción (para contexto del mensaje)
+ * @param {string} tipoCalculo  - 'meses' | 'tiempo'  (para personalizar el mensaje sugerido)
+ */
+function mostrarTarjetaNotificacion(containerId, cardId, graficaId, valorCalculado, tipoCalculo) {
+  const trabajador = obtenerTrabajadorEnRiesgo();
+
+  // Eliminar tarjeta previa si existe (para re-renderizarla actualizada)
+  const previa = document.getElementById(cardId);
+  if (previa) previa.remove();
+
+  // Contenedor de la gráfica: la tarjeta se inserta justo antes
+  const graficaDiv = document.getElementById(graficaId);
+  if (!graficaDiv) return;
+
+  // Mensaje sugerido según el tipo de cálculo
+  let mensajeSugerido = '';
+  if (tipoCalculo === 'meses') {
+    mensajeSugerido = `Se estima que en ${valorCalculado} mes(es) se acumularán aproximadamente ${Math.round(window.N0 * Math.exp(window.k * valorCalculado))} retardos. Se recomienda una entrevista preventiva.`;
+  } else {
+    mensajeSugerido = `La predicción indica que se alcanzarán ${Math.round(valorCalculado)} retardos en aproximadamente ${(Math.log(valorCalculado / window.N0) / window.k).toFixed(1)} mes(es). Favor de atender el caso con prioridad.`;
+  }
+
+  // Construir la tarjeta
+  const tarjeta = document.createElement('div');
+  tarjeta.id        = cardId;
+  tarjeta.className = 'notif-card';
+  tarjeta.setAttribute('role', 'alert');
+  tarjeta.setAttribute('aria-live', 'polite');
+
+  tarjeta.innerHTML = `
+    <div class="notif-card-header">
+      <span class="notif-icono">⚠</span>
+      <div class="notif-header-texto">
+        <h4 class="notif-titulo">Trabajador en Riesgo Detectado</h4>
+        <p class="notif-subtitulo">El sistema identificó al empleado con mayor acumulación de retardos en el período de referencia.</p>
+      </div>
+      <button class="notif-cerrar" onclick="cerrarTarjetaNotificacion('${cardId}')" aria-label="Cerrar notificación">✕</button>
+    </div>
+
+    <div class="notif-card-body">
+      <div class="notif-dato-wrap">
+        <label class="notif-label">Núm. de Trabajador</label>
+        <div class="notif-num-trabajador" id="${cardId}-num">
+          ${trabajador !== null ? trabajador : '<em style="color:var(--text-muted);font-size:13px;">No disponible</em>'}
+        </div>
+      </div>
+
+      <div class="notif-mensaje-wrap">
+        <label class="notif-label" for="${cardId}-textarea">Mensaje de Notificación</label>
+        <textarea
+          id="${cardId}-textarea"
+          class="notif-textarea"
+          rows="3"
+          maxlength="1000"
+          placeholder="Redacte aquí el mensaje que quedará registrado..."
+        >${mensajeSugerido}</textarea>
+        <span class="notif-contador" id="${cardId}-contador">${mensajeSugerido.length}/1000</span>
+      </div>
+    </div>
+
+    <div class="notif-card-footer">
+      <span class="notif-status" id="${cardId}-status"></span>
+      <button
+        class="notif-btn-enviar"
+        id="${cardId}-btn"
+        onclick="enviarNotificacion('${cardId}', ${trabajador !== null ? trabajador : 'null'})"
+        ${trabajador === null ? 'disabled title="No hay número de trabajador disponible"' : ''}
+      >
+        <span class="notif-btn-icono">🔔</span> Registrar Notificación
+      </button>
+    </div>
+  `;
+
+  // Insertar ANTES de la gráfica (jerarquía: botón → tarjeta → gráfica)
+  graficaDiv.parentNode.insertBefore(tarjeta, graficaDiv);
+
+  // Activar contador de caracteres del textarea
+  const textarea  = document.getElementById(`${cardId}-textarea`);
+  const contador  = document.getElementById(`${cardId}-contador`);
+  textarea.addEventListener('input', () => {
+    contador.textContent = `${textarea.value.length}/1000`;
+  });
+
+  // Animación de entrada
+  requestAnimationFrame(() => {
+    tarjeta.classList.add('notif-card--visible');
+  });
+}
+
+/**
+ * Cierra y elimina la tarjeta de notificación.
+ */
+function cerrarTarjetaNotificacion(cardId) {
+  const tarjeta = document.getElementById(cardId);
+  if (!tarjeta) return;
+  tarjeta.classList.remove('notif-card--visible');
+  tarjeta.classList.add('notif-card--saliendo');
+  tarjeta.addEventListener('transitionend', () => tarjeta.remove(), { once: true });
+}
+
+/**
+ * Envía la notificación al endpoint PHP.
+ * @param {string} cardId
+ * @param {number|null} numTrabajador
+ */
+async function enviarNotificacion(cardId, numTrabajador) {
+  if (numTrabajador === null) return;
+
+  const textarea  = document.getElementById(`${cardId}-textarea`);
+  const btnEnviar = document.getElementById(`${cardId}-btn`);
+  const status    = document.getElementById(`${cardId}-status`);
+  const mensaje   = textarea.value.trim();
+
+  if (!mensaje) {
+    mostrarStatusNotificacion(status, 'error', '⚠ El mensaje no puede estar vacío.');
+    textarea.focus();
+    return;
+  }
+
+  // Estado de carga
+  btnEnviar.disabled = true;
+  btnEnviar.innerHTML = '<span class="notif-spinner"></span> Enviando…';
+  mostrarStatusNotificacion(status, '', '');
+
+  try {
+    const res = await fetch(notificacionUrl, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ 'num-trabajador': numTrabajador, mensaje })
+    });
+
+    const data = await res.json();
+
+    if (res.ok && data.ok) {
+      mostrarStatusNotificacion(status, 'exito', '✔ Notificación registrada correctamente.');
+      btnEnviar.innerHTML = '<span class="notif-btn-icono">✔</span> Registrado';
+      btnEnviar.classList.add('notif-btn-enviado');
+      textarea.disabled = true;
+    } else {
+      throw new Error(data.message || 'Error desconocido del servidor.');
+    }
+  } catch (err) {
+    console.error('Error al enviar notificación:', err);
+    mostrarStatusNotificacion(status, 'error', `✕ Error: ${err.message}`);
+    btnEnviar.disabled = false;
+    btnEnviar.innerHTML = '<span class="notif-btn-icono">🔔</span> Reintentar';
+  }
+}
+
+/**
+ * Actualiza el texto de estado dentro de la tarjeta.
+ */
+function mostrarStatusNotificacion(el, tipo, texto) {
+  el.textContent  = texto;
+  el.className    = 'notif-status';
+  if (tipo) el.classList.add(`notif-status--${tipo}`);
+}
+
+/* ════════════════════════════════════════════════
    MODELO MATEMÁTICO — Calcular retardos en N meses
-──────────────────────────────────────────────── */
+   (sin modificaciones a la lógica matemática)
+   ════════════════════════════════════════════════ */
 function calcularRetardos() {
   const input  = document.getElementById('meses');
   const output = document.getElementById('resultado_meses');
@@ -418,11 +624,21 @@ function calcularRetardos() {
       }
     }
   });
+
+  /* ── NUEVO: Mostrar tarjeta de notificación encima de la gráfica ── */
+  mostrarTarjetaNotificacion(
+    'seccion-calcular-retardos',      // ID de la sección (div.modulo-seccion)
+    'notif-card-retardos',            // ID único de esta tarjeta
+    'grafica-retardos-container',     // ID del div de la gráfica (la tarjeta va antes)
+    meses,                            // Valor calculado
+    'meses'                           // Tipo de cálculo
+  );
 }
 
-/* ────────────────────────────────────────────────
+/* ════════════════════════════════════════════════
    MODELO MATEMÁTICO — Calcular tiempo para N retardos
-──────────────────────────────────────────────── */
+   (sin modificaciones a la lógica matemática)
+   ════════════════════════════════════════════════ */
 function calcularTiempo() {
   const input  = document.getElementById('retardos');
   const output = document.getElementById('resultado');
@@ -442,6 +658,7 @@ function calcularTiempo() {
 
   const cardTiempo = document.getElementById('card-resultado-tiempo');
   if (cardTiempo) cardTiempo.textContent = `t = ln(${x} / ${N0}) / ${k.toFixed(4)} ≈ ${t.toFixed(2)} meses`;
+
   const maxRetardos = Math.max(x * 1.5, N0 * 2);
   const paso = Math.max(1, Math.floor((maxRetardos - N0) / 20));
   const labelsT = [], valoresT = [];
@@ -486,4 +703,13 @@ function calcularTiempo() {
       }
     }
   });
+
+  /* ── NUEVO: Mostrar tarjeta de notificación encima de la gráfica ── */
+  mostrarTarjetaNotificacion(
+    'seccion-calcular-tiempo',        // ID de la sección
+    'notif-card-tiempo',              // ID único de esta tarjeta
+    'grafica-tiempo-container',       // ID del div de la gráfica
+    x,                                // Valor calculado (N retardos objetivo)
+    'tiempo'                          // Tipo de cálculo
+  );
 }
