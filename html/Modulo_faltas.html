@@ -6,7 +6,8 @@
   <title>Estimación de Retardos — UTHH</title>
   <link rel="stylesheet" href="../css/PriFilosofia.css">
   <link rel="stylesheet" href="../css/ModuloFaltaCss.css">
-  <link rel="stylesheet" href="../css/notificaciones_retardo.css">
+  <!-- NUEVO: Estilos de la tarjeta de notificación de riesgo -->
+  <link rel="stylesheet" href="../css/notif_card_styles.css">
 </head>
 <body>
 
@@ -87,8 +88,15 @@
         
       </div>
 
-      <!-- CALCULAR RETARDOS -->
-      <div class="modulo-seccion">
+      <!-- ===================== CALCULAR RETARDOS ===================== -->
+      <!--
+        NUEVO: id="seccion-calcular-retardos" añadido al div.modulo-seccion.
+        Este ID es necesario para que el JS pueda localizar el contenedor
+        de esta sección. La tarjeta de notificación se inserta ANTES del
+        div#grafica-retardos-container, respetando la jerarquía:
+          Controles de input → Tarjeta Notificación → Gráfica
+      -->
+      <div class="modulo-seccion" id="seccion-calcular-retardos">
         <h3>Estimación de Retardos en t Meses</h3>
         <form>
           <label for="meses">Seleccione la cantidad de meses para calcular cuántos retardos habrá en ese tiempo:</label><br>
@@ -111,16 +119,25 @@
           <p id="resultado_meses"></p>
         </form>
 
-        
-
+        <!--
+          JERARQUÍA VISUAL (de arriba hacia abajo):
+            1. Controles (select + botón "Calcular")  ← ya están arriba
+            2. Tarjeta de Notificación                ← insertada dinámicamente por JS
+               justo ANTES de este div
+            3. Gráfica de resultados                  ← este div
+        -->
         <div id="grafica-retardos-container" style="display:none;margin-top:24px;">
           <h4 style="color:var(--maroon);margin-bottom:8px;">Curva de Predicción — Retardos por Mes</h4>
           <canvas id="graficaRetardos" height="120"></canvas>
         </div>
       </div>
 
-      <!-- CALCULAR TIEMPO -->
-      <div class="modulo-seccion">
+      <!-- ===================== CALCULAR TIEMPO ===================== -->
+      <!--
+        NUEVO: id="seccion-calcular-tiempo" añadido al div.modulo-seccion.
+        Misma lógica: la tarjeta se inserta antes de #grafica-tiempo-container.
+      -->
+      <div class="modulo-seccion" id="seccion-calcular-tiempo">
         <h3>Estimación de Tiempo para Alcanzar N Retardos</h3>
         <form>
           <label for="retardos">Ingrese el número de retardos (máximo 200) para calcular en cuánto tiempo se llegará a esa cantidad:</label><br>
@@ -131,8 +148,13 @@
           <p id="resultado"></p>
         </form>
 
-        
-
+        <!--
+          JERARQUÍA VISUAL (de arriba hacia abajo):
+            1. Controles (input + botón "Calcular")   ← ya están arriba
+            2. Tarjeta de Notificación                ← insertada dinámicamente por JS
+               justo ANTES de este div
+            3. Gráfica de resultados                  ← este div
+        -->
         <div id="grafica-tiempo-container" style="display:none;margin-top:24px;">
           <h4 style="color:var(--maroon);margin-bottom:8px;">Curva de Predicción — Tiempo para Alcanzar N Retardos</h4>
           <canvas id="graficaTiempo" height="120"></canvas>
