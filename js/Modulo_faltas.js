@@ -471,7 +471,7 @@ function mostrarTarjetaNotificacion(containerId, cardId, graficaId, valorCalcula
         onclick="enviarNotificacion('${cardId}', ${trabajador !== null ? trabajador : 'null'})"
         ${trabajador === null ? 'disabled title="No hay número de trabajador disponible"' : ''}
       >
-        <span class="notif-btn-icono">🔔</span> Registrar Notificación
+        <span class="notif-btn-icono"></span> Registrar Notificación
       </button>
     </div>
   `;
@@ -537,7 +537,7 @@ async function enviarNotificacion(cardId, numTrabajador) {
     const data = await res.json();
 
     if (res.ok && data.ok) {
-      mostrarStatusNotificacion(status, 'exito', '✔ Notificación registrada correctamente.');
+      mostrarStatusNotificacion(status, 'exito', 'Notificación registrada correctamente.');
       btnEnviar.innerHTML = '<span class="notif-btn-icono">✔</span> Registrado';
       btnEnviar.classList.add('notif-btn-enviado');
       textarea.disabled = true;
@@ -548,7 +548,7 @@ async function enviarNotificacion(cardId, numTrabajador) {
     console.error('Error al enviar notificación:', err);
     mostrarStatusNotificacion(status, 'error', `✕ Error: ${err.message}`);
     btnEnviar.disabled = false;
-    btnEnviar.innerHTML = '<span class="notif-btn-icono">🔔</span> Reintentar';
+    btnEnviar.innerHTML = '<span class="notif-btn-icono"></span> Reintentar';
   }
 }
 
