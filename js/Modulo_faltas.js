@@ -372,32 +372,34 @@ function mostrarCargando(estado) {
  * de referencia (jul 2025 – mar 2026) y lo devuelve como
  * string, o null si no hay datos.
  */
-function obtenerTrabajadorEnRiesgo() {
-  if (!_estadosCache) return null;
+function obtenerTrabajadoresEnRiesgo() {
+  if (!_estadosCache) return [];
 
   const retardos = filtrarRetardos(_estadosCache, '2025-07-01', '2026-03-31');
-  if (retardos.length === 0) return null;
+  if (retardos.length === 0) return [];
 
   const conteo = {};
   retardos.forEach(item => {
-    const num =
-      item['NUM-TRABAJADOR'] ||
-      item.NUM_TRABAJADOR    ||
-      item.num_trabajador    ||
-      item.ID_EMPLEADO       ||
-      item.id_empleado       ||
-      null;
-    if (num === null) return;
-    const clave = String(num);
-    conteo[clave] = (conteo[clave] || 0) + 1;
+    // Mantenemos tu lógica de búsqueda de campos, incluyendo 'NUM-TRABAJADOR' con guion
+    const num = item['NUM-TRABAJADOR'] || item.NUM_TRABAJADOR || item.num_trabajador || null;
+    if (num !== null) {
+      const clave = String(num);
+      conteo[clave] = (conteo[clave] || 0) + 1;
+    }
   });
 
-  if (Object.keys(conteo).length === 0) return null;
+  // Convertimos a una lista de objetos para poder filtrar mejor
+  const empleadosValidados = Object.entries(conteo).map(([num, total]) => ({
+    numero: num,
+    total: total
+  }));
 
-  // Trabajador con más retardos acumulados = mayor riesgo
-  return Object.entries(conteo).sort((a, b) => b[1] - a[1])[0][0];
+  // SUGERENCIA: Retornamos a todos los que tengan 3 o más retardos
+  // Esto cubrirá a los que tengan 4 (el máximo) y los que tengan 3.
+  return empleadosValidados
+    .filter(emp => emp.total >= 3)
+    .sort((a, b) => b.total - a.total); // Los de 4 arriba, luego los de 3
 }
-
 /**
  * Muestra u oculta la tarjeta de notificación.
  * @param {string} containerId  - ID del div contenedor de la sección (padre del botón Calcular)
