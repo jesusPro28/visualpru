@@ -407,60 +407,58 @@ function obtenerTrabajadoresEnRiesgo() {
  * @param {string} graficaId    - ID del div de la gráfica (la tarjeta se inserta antes de él)
  * @param {number} valorCalculado - Resultado numérico de la predicción (para contexto del mensaje)
  * @param {string} tipoCalculo  - 'meses' | 'tiempo'  (para personalizar el mensaje sugerido)
- */
-function mostrarTarjetaNotificacion(containerId, cardId, graficaId, valorCalculado, tipoCalculo) {
-  const trabajador = obtenerTrabajadorEnRiesgo();
+ */function mostrarTarjetaNotificacion(containerId, cardId, graficaId, valorCalculado, tipoCalculo) {
+  // Ahora recibimos la LISTA de trabajadores (los que tienen >= 3 retardos)
+  const trabajadoresEnRiesgo = obtenerTrabajadoresEnRiesgo();
 
-  // Eliminar tarjeta previa si existe (para re-renderizarla actualizada)
   const previa = document.getElementById(cardId);
   if (previa) previa.remove();
 
-  // Contenedor de la gráfica: la tarjeta se inserta justo antes
   const graficaDiv = document.getElementById(graficaId);
   if (!graficaDiv) return;
 
-  // Mensaje sugerido según el tipo de cálculo
   let mensajeSugerido = '';
   if (tipoCalculo === 'meses') {
-    mensajeSugerido = `Se estima que en ${valorCalculado} mes(es) se acumularán aproximadamente ${Math.round(window.N0 * Math.exp(window.k * valorCalculado))} retardos. Se recomienda una entrevista preventiva.`;
+    mensajeSugerido = `Se estima que en ${valorCalculado} mes(es) habrá un aumento crítico de retardos. Se recomienda entrevista preventiva.`;
   } else {
-    mensajeSugerido = `La predicción indica que se alcanzarán ${Math.round(valorCalculado)} retardos en aproximadamente ${(Math.log(valorCalculado / window.N0) / window.k).toFixed(1)} mes(es). Favor de atender el caso con prioridad.`;
+    mensajeSugerido = `La predicción indica que se alcanzarán ${Math.round(valorCalculado)} retardos pronto. Favor de atender con prioridad.`;
   }
 
-  // Construir la tarjeta
   const tarjeta = document.createElement('div');
   tarjeta.id        = cardId;
   tarjeta.className = 'notif-card';
-  tarjeta.setAttribute('role', 'alert');
-  tarjeta.setAttribute('aria-live', 'polite');
+
+  // Generamos las opciones del selector basadas en la lista de trabajadores
+  let opcionesHtml = '';
+  if (trabajadoresEnRiesgo.length > 0) {
+    trabajadoresEnRiesgo.forEach(emp => {
+      opcionesHtml += `<option value="${emp.numero}">Trabajador #${emp.numero} (${emp.total} retardos)</option>`;
+    });
+  }
 
   tarjeta.innerHTML = `
     <div class="notif-card-header">
       <span class="notif-icono">⚠</span>
       <div class="notif-header-texto">
-        <h4 class="notif-titulo">Trabajador en Riesgo Detectado</h4>
-        <p class="notif-subtitulo">El sistema identificó al empleado con mayor acumulación de retardos en el período de referencia.</p>
+        <h4 class="notif-titulo">Personal en Riesgo Detectado</h4>
+        <p class="notif-subtitulo">Se encontraron ${trabajadoresEnRiesgo.length} empleados que superan el umbral de alerta.</p>
       </div>
-      <button class="notif-cerrar" onclick="cerrarTarjetaNotificacion('${cardId}')" aria-label="Cerrar notificación">✕</button>
+      <button class="notif-cerrar" onclick="cerrarTarjetaNotificacion('${cardId}')">✕</button>
     </div>
 
     <div class="notif-card-body">
       <div class="notif-dato-wrap">
-        <label class="notif-label">Núm. de Trabajador</label>
-        <div class="notif-num-trabajador" id="${cardId}-num">
-          ${trabajador !== null ? trabajador : '<em style="color:var(--text-muted);font-size:13px;">No disponible</em>'}
-        </div>
+        <label class="notif-label">Seleccionar Trabajador para Notificar</label>
+        ${trabajadoresEnRiesgo.length > 0 ? `
+          <select id="${cardId}-select-trabajador" class="notif-textarea" style="padding:8px; margin-bottom:10px;">
+            ${opcionesHtml}
+          </select>
+        ` : '<p style="color:red;">No hay trabajadores que cumplan el criterio de riesgo.</p>'}
       </div>
 
       <div class="notif-mensaje-wrap">
         <label class="notif-label" for="${cardId}-textarea">Mensaje de Notificación</label>
-        <textarea
-          id="${cardId}-textarea"
-          class="notif-textarea"
-          rows="3"
-          maxlength="1000"
-          placeholder="Redacte aquí el mensaje que quedará registrado..."
-        >${mensajeSugerido}</textarea>
+        <textarea id="${cardId}-textarea" class="notif-textarea" rows="3" maxlength="1000">${mensajeSugerido}</textarea>
         <span class="notif-contador" id="${cardId}-contador">${mensajeSugerido.length}/1000</span>
       </div>
     </div>
@@ -470,28 +468,24 @@ function mostrarTarjetaNotificacion(containerId, cardId, graficaId, valorCalcula
       <button
         class="notif-btn-enviar"
         id="${cardId}-btn"
-        onclick="enviarNotificacion('${cardId}', ${trabajador !== null ? trabajador : 'null'})"
-        ${trabajador === null ? 'disabled title="No hay número de trabajador disponible"' : ''}
+        onclick="prepararEnvio('${cardId}')"
+        ${trabajadoresEnRiesgo.length === 0 ? 'disabled' : ''}
       >
-        <span class="notif-btn-icono"></span> Registrar Notificación
+        <span class="notif-btn-icono">🔔</span> Registrar Notificación
       </button>
     </div>
   `;
 
-  // Insertar ANTES de la gráfica (jerarquía: botón → tarjeta → gráfica)
   graficaDiv.parentNode.insertBefore(tarjeta, graficaDiv);
 
-  // Activar contador de caracteres del textarea
-  const textarea  = document.getElementById(`${cardId}-textarea`);
-  const contador  = document.getElementById(`${cardId}-contador`);
+  // Contador de caracteres
+  const textarea = document.getElementById(`${cardId}-textarea`);
+  const contador = document.getElementById(`${cardId}-contador`);
   textarea.addEventListener('input', () => {
     contador.textContent = `${textarea.value.length}/1000`;
   });
 
-  // Animación de entrada
-  requestAnimationFrame(() => {
-    tarjeta.classList.add('notif-card--visible');
-  });
+  requestAnimationFrame(() => tarjeta.classList.add('notif-card--visible'));
 }
 
 /**
