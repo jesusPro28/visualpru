@@ -5,7 +5,7 @@
 const apiUrl = 'https://api-asistencia.vercel.app';
 
 
-const notificacionUrl = 'https://api-asistencia.vercel.app/api/notificaciones';
+const notificacionUrl = 'https://apiserver-eta.vercel.app/api/notificaciones/enviar';
 
 const MESES_NOMBRES = [
   'Enero','Febrero','Marzo','Abril','Mayo','Junio',
@@ -500,12 +500,33 @@ function cerrarTarjetaNotificacion(cardId) {
 }
 
 /**
- * Envía la notificación al endpoint PHP.
+ * Lee el trabajador seleccionado en el <select> de la tarjeta y llama a enviarNotificacion.
+ * Esta función es la que el botón "Registrar Notificación" invoca directamente.
  * @param {string} cardId
- * @param {number|null} numTrabajador
+ */
+function prepararEnvio(cardId) {
+  const select = document.getElementById(`${cardId}-select-trabajador`);
+  if (!select) {
+    console.warn('prepararEnvio: no se encontró el select de trabajador para', cardId);
+    return;
+  }
+  const numTrabajador = select.value;
+  if (!numTrabajador) {
+    const status = document.getElementById(`${cardId}-status`);
+    mostrarStatusNotificacion(status, 'error', '⚠ Selecciona un trabajador antes de enviar.');
+    return;
+  }
+  enviarNotificacion(cardId, numTrabajador);
+}
+
+/**
+ * Envía la notificación al endpoint del API (Node/Express).
+ * Incluye el token JWT del administrador en el header Authorization.
+ * @param {string} cardId
+ * @param {string} numTrabajador
  */
 async function enviarNotificacion(cardId, numTrabajador) {
-  if (numTrabajador === null) return;
+  if (!numTrabajador) return;
 
   const textarea  = document.getElementById(`${cardId}-textarea`);
   const btnEnviar = document.getElementById(`${cardId}-btn`);
@@ -518,6 +539,13 @@ async function enviarNotificacion(cardId, numTrabajador) {
     return;
   }
 
+  // Leer token de admin guardado en localStorage por el login
+  const token = localStorage.getItem('uthh_token');
+  if (!token) {
+    mostrarStatusNotificacion(status, 'error', '⚠ No hay sesión activa. Inicia sesión como administrador.');
+    return;
+  }
+
   // Estado de carga
   btnEnviar.disabled = true;
   btnEnviar.innerHTML = '<span class="notif-spinner"></span> Enviando…';
@@ -526,19 +554,22 @@ async function enviarNotificacion(cardId, numTrabajador) {
   try {
     const res = await fetch(notificacionUrl, {
       method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ 'num-trabajador': numTrabajador, mensaje })
+      headers: {
+        'Content-Type':  'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ numTrabajador, mensaje }),
     });
 
     const data = await res.json();
 
     if (res.ok && data.ok) {
-      mostrarStatusNotificacion(status, 'exito', 'Notificación registrada correctamente.');
-      btnEnviar.innerHTML = '<span class="notif-btn-icono">✔</span> Registrado';
+      mostrarStatusNotificacion(status, 'exito', '✔ Notificación enviada correctamente al empleado.');
+      btnEnviar.innerHTML = '<span class="notif-btn-icono">✔</span> Enviado';
       btnEnviar.classList.add('notif-btn-enviado');
       textarea.disabled = true;
     } else {
-      throw new Error(data.message || 'Error desconocido del servidor.');
+      throw new Error(data.msg || data.message || 'Error desconocido del servidor.');
     }
   } catch (err) {
     console.error('Error al enviar notificación:', err);
@@ -709,19 +740,4 @@ function calcularTiempo() {
     'tiempo'                          // Tipo de cálculo
   );
 }
-/**
- * Función puente que falta para conectar la UI con la lógica de envío
- */
-function prepararEnvio(cardId) {
-  const select = document.getElementById(`${cardId}-select-trabajador`);
-  
-  if (!select) {
-    console.error("No se encontró el selector de trabajador.");
-    return;
-  }
 
-  const numTrabajador = select.value;
-  
-  // Llamamos a la función que ya tienes definida en tu JS
-  enviarNotificacion(cardId, numTrabajador);
-}
