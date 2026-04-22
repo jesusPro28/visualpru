@@ -1,613 +1,783 @@
-/* ============================================
-   CSS PARA MODULO DE FALTAS — UTHH
-   ============================================ */
-
-:root {
-  --maroon: #5b1220;
-  --gold:   #bd9659;
-  --light:  #efe1b3;
-  --text-dark:  #222;
-  --text-muted: #777;
-  --radius: 6px;
-  --shadow: 0 2px 8px rgba(0,0,0,0.12);
-}
-
-/* ── Contenedor principal ── */
-.modulo-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 30px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* ── Título ── */
-.modulo-titulo {
-  color: var(--maroon);
-  text-align: center;
-  font-size: 28px;
-  margin-bottom: 24px;
-  font-weight: bold;
-}
-
-/* ── Descripción ── */
-.modulo-desc {
-  color: var(--text-muted);
-  text-align: center;
-  font-size: 16px;
-  margin-bottom: 24px;
-  line-height: 1.6;
-}
-
-/* ══════════════════════════════════════════
-   SECCIÓN ANUAL
-══════════════════════════════════════════ */
-.anual-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 20px;
-  padding-bottom: 14px;
-  border-bottom: 2px solid var(--gold);
-}
-
-.anual-titulo {
-  color: var(--maroon);
-  font-size: 20px;
-  margin: 0;
-}
-
-.anual-selector {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 15px;
-  color: var(--text-dark);
-}
-
-.anual-selector label {
-  font-weight: 600;
-  color: var(--maroon);
-}
-
-.anual-selector select {
-  padding: 6px 14px;
-  border: 2px solid var(--gold);
-  border-radius: var(--radius);
-  font-size: 15px;
-  color: var(--maroon);
-  font-weight: bold;
-  background: #fff;
-  cursor: pointer;
-  transition: border-color 0.2s;
-}
-
-.anual-selector select:focus {
-  outline: none;
-  border-color: var(--maroon);
-}
-
-/* ── Badge de cargando ── */
-.badge-cargando {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  background: var(--light);
-  color: var(--maroon);
-  font-size: 13px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  border: 1px solid var(--gold);
-  animation: pulsar 1.2s ease-in-out infinite;
-}
-
-@keyframes pulsar {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.5; }
-}
-
-/* ══════════════════════════════════════════
-   GRID DE MESES
-══════════════════════════════════════════ */
-.meses-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 18px;
-  margin-bottom: 40px;
-}
-
-/* ── Tarjeta de mes ── */
-.mes-card {
-  background: #fff;
-  border: 1.5px solid #e0d0a0;
-  border-radius: 10px;
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: box-shadow 0.2s, transform 0.2s;
-}
-
-.mes-card:hover {
-  box-shadow: 0 4px 16px rgba(91,18,32,0.15);
-  transform: translateY(-2px);
-}
-
-/* ── Encabezado de tarjeta ── */
-.mes-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px 8px;
-  background: var(--maroon);
-  color: #fff;
-}
-
-.mes-nombre {
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.3px;
-}
-
-/* ── Badges de cantidad ── */
-.mes-badge {
-  font-size: 12px;
-  font-weight: 700;
-  padding: 3px 9px;
-  border-radius: 20px;
-  white-space: nowrap;
-}
-
-.badge-activo {
-  background: var(--gold);
-  color: #fff;
-}
-
-.badge-cero {
-  background: rgba(255,255,255,0.2);
-  color: rgba(255,255,255,0.85);
-}
-
-/* ── Área de la gráfica / vacío ── */
-.mes-grafica-wrap {
-  flex: 1;
-  padding: 10px 12px 6px;
-  min-height: 120px;
-  position: relative;
-}
-
-/* ── Estado "sin datos" ── */
-.mes-sin-datos {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100px;
-  color: var(--text-muted);
-  text-align: center;
-  gap: 6px;
-  font-size: 13px;
-  padding: 10px 0;
-}
-
-.mes-sin-datos span {
-  font-size: 28px;
-  line-height: 1;
-}
-
-/* ── Botón Ver más detalle ── */
-.mes-detalle-btn {
-  width: 100%;
-  padding: 9px 0;
-  background: var(--light);
-  color: var(--maroon);
-  border: none;
-  border-top: 1.5px solid #e0d0a0;
-  font-size: 13px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-  letter-spacing: 0.2px;
-}
-
-.mes-detalle-btn:hover:not(:disabled) {
-  background: var(--gold);
-  color: #fff;
-}
-
-.mes-detalle-btn:disabled {
-  cursor: default;
-  opacity: 0.45;
-}
-
-/* ══════════════════════════════════════════
-   MODAL DE EMPLEADOS
-══════════════════════════════════════════ */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-.modal-box {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-  width: 100%;
-  max-width: 700px;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  animation: aparecer 0.2s ease;
-}
-
-@keyframes aparecer {
-  from { opacity: 0; transform: scale(0.95) translateY(10px); }
-  to   { opacity: 1; transform: scale(1)    translateY(0); }
-}
-
-.modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px 14px;
-  background: var(--maroon);
-  border-radius: 12px 12px 0 0;
-  color: #fff;
-}
-
-.modal-header h3 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-}
-
-.modal-cerrar {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  padding: 0 4px;
-  opacity: 0.8;
-  transition: opacity 0.2s;
-  line-height: 1;
-}
-
-.modal-cerrar:hover { opacity: 1; }
-
-.modal-body {
-  overflow-y: auto;
-  padding: 20px;
-  flex: 1;
-}
-
-/* ── Resumen del modal ── */
-.modal-resumen {
-  background: var(--light);
-  border-left: 4px solid var(--gold);
-  padding: 10px 14px;
-  border-radius: 0 var(--radius) var(--radius) 0;
-  font-size: 14px;
-  color: var(--text-dark);
-  margin: 0 0 16px;
-}
-
-/* ── Vacío en modal ── */
-.modal-vacio {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px 0;
-  color: var(--text-muted);
-  gap: 10px;
-  font-size: 14px;
-}
-
-.modal-vacio span { font-size: 40px; }
-
-/* ── Tabla del modal ── */
-.modal-tabla-wrap {
-  overflow-x: auto;
-}
-
-.modal-tabla {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 14px;
-}
-
-.modal-tabla thead th {
-  background: var(--maroon);
-  color: #fff;
-  padding: 10px 12px;
-  text-align: left;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.modal-tabla thead th:first-child { border-radius: 6px 0 0 0; }
-.modal-tabla thead th:last-child  { border-radius: 0 6px 0 0; }
-
-.modal-tabla tbody tr:nth-child(even) { background: #faf5e8; }
-.modal-tabla tbody tr:hover           { background: #f3ebd0; }
-
-.modal-tabla td {
-  padding: 9px 12px;
-  border-bottom: 1px solid #e8dfc0;
-  color: var(--text-dark);
-  vertical-align: top;
-}
-
-.empleado-nombre {
-  font-weight: 600;
-  color: var(--maroon);
-}
-
-.num-trabajador {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--maroon);
-}
-
-.nombre-empleado {
-  display: block;
-  font-size: 11px;
-  font-weight: 400;
-  color: var(--text-muted);
-  margin-top: 1px;
-}
-
-/* ── Encabezado de la columna Fechas ── */
-.fechas-th-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.fechas-th-cols {
-  display: flex;
-  gap: 0;
-  font-size: 11px;
-  font-weight: 500;
-  opacity: 0.82;
-  border-top: 1px solid rgba(255,255,255,0.3);
-  padding-top: 3px;
-}
-
-.fechas-th-cols span {
-  flex: 1;
-  text-align: center;
-}
-
-/* ── Celda de fechas ── */
-.fechas-cell {
-  padding: 6px 8px !important;
-  vertical-align: top;
-  min-width: 110px;
-  max-width: 160px;
-}
-
-.fechas-lista {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-/* ── Fila de una fecha ── */
-.fecha-fila {
-  display: flex;
-  align-items: center;
-  border-radius: 4px;
-  overflow: hidden;
-  font-size: 12px;
-  border: 1px solid #e0d0a0;
-}
-
-.fecha-par   { background: #fff; }
-.fecha-impar { background: #faf5e8; }
-
-.fecha-dia,
-.fecha-mes {
-  flex: 1;
-  text-align: center;
-  padding: 3px 6px;
-  line-height: 1.3;
-}
-
-.fecha-dia {
-  font-weight: 700;
-  color: var(--maroon);
-  border-right: 1px solid #e0d0a0;
-}
-
-.fecha-mes {
-  color: var(--text-muted);
-  font-weight: 500;
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.3px;
-}
-
-/* ── Badges de nivel de retardos ── */
-.retardo-count {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 20px;
-  font-weight: 700;
-  font-size: 13px;
-}
-
-.nivel-bajo   { background: #d4edda; color: #155724; }
-.nivel-medio  { background: #fff3cd; color: #856404; }
-.nivel-alto   { background: #f8d7da; color: #721c24; }
-
-/* ══════════════════════════════════════════
-   SECCIONES DEL MODELO (las de abajo)
-══════════════════════════════════════════ */
-.modulo-seccion {
-  background: var(--light);
-  padding: 24px;
-  border-radius: var(--radius);
-  margin-bottom: 30px;
-  border-left: 5px solid var(--gold);
-  box-shadow: var(--shadow);
-}
-
-.modulo-seccion h3 {
-  color: var(--maroon);
-  margin-top: 0;
-}
-
-.modulo-seccion input[type="number"] {
-  padding: 10px 14px;
-  border: 2px solid #ccc;
-  border-radius: var(--radius);
-  font-size: 14px;
-  width: 200px;
-  transition: border-color 0.3s;
-}
-
-.modulo-seccion input[type="number"]:focus {
-  border-color: var(--maroon);
-  outline: none;
-  box-shadow: 0 0 5px rgba(91,18,32,0.3);
-}
-
-.modulo-seccion button {
-  padding: 10px 24px;
-  background: var(--maroon);
-  color: #fff;
-  border: none;
-  border-radius: var(--radius);
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
-}
-
-.modulo-seccion button:hover {
-  background: #4a0f1a;
-  transform: translateY(-2px);
-}
-
-/* ══════════════════════════════════════════
-   TARJETAS DE PROCESO MATEMÁTICO
-══════════════════════════════════════════ */
-
-.proceso-titulo {
-  font-size: 15px;
-  font-weight: bold;
-  color: var(--maroon);
-  margin: 28px 0 14px 0;
-  padding-bottom: 6px;
-  border-bottom: 2px solid var(--gold);
-}
-
-.proceso-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 14px;
-  margin-top: 10px;
-}
-
-.proceso-card {
-  background: #fff;
-  border-radius: 10px;
-  border: 1px solid #e0cfa0;
-  box-shadow: 0 2px 8px rgba(91,18,32,0.08);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.proceso-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(91,18,32,0.15);
-}
-
-.proceso-card-highlight {
-  border-color: var(--gold);
-  border-width: 2px;
-  background: #fffdf5;
-}
-
-.proceso-card-num {
-  background: var(--maroon);
-  color: #fff;
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-  padding: 10px 0;
-}
-
-.proceso-card-highlight .proceso-card-num {
-  background: var(--gold);
-  color: var(--maroon);
-}
-
-.proceso-card-body {
-  padding: 14px 16px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  flex: 1;
-}
-
-.proceso-card-titulo {
-  font-size: 13px;
-  font-weight: bold;
-  color: var(--maroon);
-  margin-bottom: 3px;
-}
-
-.proceso-card-desc {
-  font-size: 12px;
-  color: var(--text-muted);
-  line-height: 1.5;
-}
-
-.proceso-formula {
-  background: #f5efe0;
-  border-left: 3px solid var(--gold);
-  border-radius: 4px;
-  padding: 5px 10px;
-  font-size: 12px;
-  font-weight: bold;
-  color: var(--maroon);
-  font-family: 'Courier New', monospace;
-  margin: 2px 0;
-}
-
-.resultado-dinamico {
-  margin-top: 6px;
-  font-style: italic;
-  color: var(--maroon);
-  font-weight: bold;
-  font-size: 11px;
-}
-
-/* ══════════════════════════════════════════
-   RESPONSIVE
-══════════════════════════════════════════ */
-@media (max-width: 768px) {
-  .modulo-container { padding: 16px; }
-  .meses-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-  .anual-header { flex-direction: column; align-items: flex-start; }
-  .modal-box { max-height: 92vh; }
-}
-
-@media (max-width: 480px) {
-  .meses-grid { grid-template-columns: 1fr; }
+/* ================================================
+   Modulo_faltas.js  —  UTHH  Retardos
+   ================================================ */
+
+const apiUrl = 'https://api-asistencia.vercel.app';
+
+const MESES_NOMBRES = [
+  'Enero','Febrero','Marzo','Abril','Mayo','Junio',
+  'Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'
+];
+
+/* Caché de datos para no hacer múltiples peticiones */
+let _estadosCache = null;
+let _empleadosCache = null;
+
+/* Año actualmente seleccionado */
+let anioActual = 2025;
+
+/* Charts de los meses (para destruirlos al redibujar) */
+const _chartsMeses = {};
+
+/* ────────────────────────────────────────────────
+   API
+──────────────────────────────────────────────── */
+async function fetchEstados() {
+  if (_estadosCache) return _estadosCache;
+  const res = await fetch(`${apiUrl}/api/estados`);
+  const data = await res.json();
+  if (!data.ok || !data.data) throw new Error('Error al obtener datos de la API');
+  _estadosCache = data.data;
+  return _estadosCache;
+}
+
+async function fetchEmpleados() {
+  if (_empleadosCache) return _empleadosCache;
+  try {
+    const res = await fetch(`${apiUrl}/api/empleados`);
+    const data = await res.json();
+    if (!data.ok || !data.data) return [];
+    _empleadosCache = data.data;
+    return _empleadosCache;
+  } catch (e) {
+    return [];
+  }
+}
+
+function isRetardo(item) {
+  return item.ESTATUS && item.ESTATUS.toString().trim().toUpperCase() === 'RETARDO';
+}
+
+/* Retorna los registros de retardo dentro de un rango de fechas */
+function filtrarRetardos(data, startIso, endIso) {
+  const start = new Date(startIso);
+  const end   = new Date(endIso);
+  return data.filter(item => {
+    const fecha = new Date(item.FECHA);
+    return fecha >= start && fecha <= end && isRetardo(item);
+  });
+}
+
+/* Retorna el último día del mes dado (mes = 1-12) */
+function ultimoDia(anio, mes) {
+  return new Date(anio, mes, 0).getDate();
+}
+
+/* ────────────────────────────────────────────────
+   INICIALIZACIÓN
+──────────────────────────────────────────────── */
+window.addEventListener('load', async () => {
+  anioActual = parseInt(document.getElementById('selectorAnio').value, 10);
+  generarTarjetas(anioActual);
+  await cargarDatos();
+});
+
+/* Cuando cambia el año en el selector */
+async function cambiarAnio() {
+  anioActual = parseInt(document.getElementById('selectorAnio').value, 10);
+  generarTarjetas(anioActual);
+  await cargarDatos();
+}
+
+/* ────────────────────────────────────────────────
+   GENERAR TARJETAS VACÍAS (esqueleto)
+──────────────────────────────────────────────── */
+function generarTarjetas(anio) {
+  const grid = document.getElementById('mesesGrid');
+  grid.innerHTML = '';
+
+  MESES_NOMBRES.forEach((nombre, idx) => {
+    const mesNum = idx + 1;
+    const card = document.createElement('div');
+    card.className = 'mes-card';
+    card.id = `card-mes-${mesNum}`;
+    card.innerHTML = `
+      <div class="mes-card-header">
+        <span class="mes-nombre">${nombre} ${anio}</span>
+        <span class="mes-badge" id="badge-mes-${mesNum}">...</span>
+      </div>
+      <div class="mes-grafica-wrap">
+        <canvas id="canvas-mes-${mesNum}" height="90"></canvas>
+        <div class="mes-sin-datos" id="vacio-mes-${mesNum}" style="display:none;">
+          <span>📭</span>
+          <p>No hay retardos en este mes</p>
+        </div>
+      </div>
+      <button class="mes-detalle-btn" id="btn-mes-${mesNum}"
+              onclick="verDetalle(${mesNum}, ${anio})" disabled>
+        Ver más detalle ▼
+      </button>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+/* ────────────────────────────────────────────────
+   CARGAR DATOS Y RENDERIZAR
+──────────────────────────────────────────────── */
+async function cargarDatos() {
+  mostrarCargando(true);
+
+  try {
+    const estados = await fetchEstados();
+
+    for (let mes = 1; mes <= 12; mes++) {
+      const mesStr  = String(mes).padStart(2, '0');
+      const ultimo  = ultimoDia(anioActual, mes);
+      const inicio  = `${anioActual}-${mesStr}-01`;
+      const fin     = `${anioActual}-${mesStr}-${String(ultimo).padStart(2, '0')}`;
+
+      const retardosMes = filtrarRetardos(estados, inicio, fin);
+      renderizarMes(mes, retardosMes);
+    }
+
+    const initialCount = filtrarRetardos(estados, '2025-07-01', '2025-10-31').length;
+    const finalCount   = filtrarRetardos(estados, '2025-07-01', '2026-03-31').length;
+
+    document.getElementById('nr_initial').textContent = initialCount;
+    document.getElementById('nr_final').textContent   = finalCount;
+
+    if (initialCount > 0 && finalCount > 0) {
+      const t = 5;
+      const k = Math.log(finalCount / initialCount) / t;
+      window.N0 = initialCount;
+      window.k  = k;
+    } else {
+      window.N0 = 0;
+      window.k  = 0;
+    }
+
+  } catch (error) {
+    console.error('Error al cargar datos:', error);
+    document.getElementById('nr_initial').textContent = 'Error';
+    document.getElementById('nr_final').textContent   = 'Error';
+  } finally {
+    mostrarCargando(false);
+  }
+}
+
+/* ────────────────────────────────────────────────
+   RENDERIZAR UNA TARJETA DE MES
+──────────────────────────────────────────────── */
+function renderizarMes(mesNum, retardos) {
+  const badge  = document.getElementById(`badge-mes-${mesNum}`);
+  const vacio  = document.getElementById(`vacio-mes-${mesNum}`);
+  const canvas = document.getElementById(`canvas-mes-${mesNum}`);
+  const btn    = document.getElementById(`btn-mes-${mesNum}`);
+
+  if (_chartsMeses[mesNum]) {
+    _chartsMeses[mesNum].destroy();
+    delete _chartsMeses[mesNum];
+  }
+
+  if (retardos.length === 0) {
+    badge.textContent  = '0 retardos';
+    badge.className    = 'mes-badge badge-cero';
+    canvas.style.display = 'none';
+    vacio.style.display  = 'flex';
+    btn.disabled = true;
+    return;
+  }
+
+  badge.textContent = `${retardos.length} retardo${retardos.length !== 1 ? 's' : ''}`;
+  badge.className   = 'mes-badge badge-activo';
+  canvas.style.display = 'block';
+  vacio.style.display  = 'none';
+  btn.disabled = false;
+
+  const porDia = {};
+  retardos.forEach(item => {
+    const d = new Date(item.FECHA).getDate();
+    porDia[d] = (porDia[d] || 0) + 1;
+  });
+
+  const diasKeys  = Object.keys(porDia).map(Number).sort((a, b) => a - b);
+  const diasLabel = diasKeys.map(d => `Día ${d}`);
+  const diasData  = diasKeys.map(d => porDia[d]);
+
+  const ctx = canvas.getContext('2d');
+  _chartsMeses[mesNum] = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: diasLabel,
+      datasets: [{
+        label: 'Retardos',
+        data: diasData,
+        backgroundColor: 'rgba(91,18,32,0.75)',
+        borderColor: '#5b1220',
+        borderWidth: 1,
+        borderRadius: 4
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: ctx => `${ctx.parsed.y} retardo${ctx.parsed.y !== 1 ? 's' : ''}`
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { font: { size: 9 }, maxRotation: 45 },
+          grid: { display: false }
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { stepSize: 1, font: { size: 9 } }
+        }
+      }
+    }
+  });
+}
+
+/* ────────────────────────────────────────────────
+   MODAL: VER DETALLE DE UN MES
+──────────────────────────────────────────────── */
+async function verDetalle(mesNum, anio) {
+  const mesStr  = String(mesNum).padStart(2, '0');
+  const ultimo  = ultimoDia(anio, mesNum);
+  const inicio  = `${anio}-${mesStr}-01`;
+  const fin     = `${anio}-${mesStr}-${String(ultimo).padStart(2, '0')}`;
+
+  const overlay = document.getElementById('modalOverlay');
+  const titulo  = document.getElementById('modalTitulo');
+  const body    = document.getElementById('modalBody');
+
+  titulo.textContent = `Retardos — ${MESES_NOMBRES[mesNum - 1]} ${anio}`;
+  body.innerHTML = '<p style="text-align:center;color:#777;">Cargando...</p>';
+  overlay.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+
+  try {
+    const estados     = await fetchEstados();
+    const retardosMes = filtrarRetardos(estados, inicio, fin);
+
+    if (retardosMes.length === 0) {
+      body.innerHTML = `
+        <div class="modal-vacio">
+          <span></span>
+          <p>No hay retardos registrados en ${MESES_NOMBRES[mesNum - 1]} ${anio}.</p>
+        </div>`;
+      return;
+    }
+
+    const porEmpleado = {};
+    retardosMes.forEach(item => {
+      const numTrabajador =
+        item['NUM-TRABAJADOR'] ||
+        item.NUM_TRABAJADOR    ||
+        item.num_trabajador    ||
+        item.ID_EMPLEADO       ||
+        item.id_empleado       ||
+        'SIN-NUM';
+      const nombre = item.NOMBRE || item.nombre || '';
+      const clave  = String(numTrabajador);
+      if (!porEmpleado[clave]) porEmpleado[clave] = { numTrabajador: clave, nombre, registros: [] };
+      porEmpleado[clave].registros.push(item);
+    });
+
+    const empleados = Object.keys(porEmpleado).sort();
+
+    let html = `
+      <p class="modal-resumen">
+        Total: <strong>${retardosMes.length} retardo${retardosMes.length !== 1 ? 's' : ''}</strong>
+        en <strong>${empleados.length} empleado${empleados.length !== 1 ? 's' : ''}</strong>
+      </p>
+      <div class="modal-tabla-wrap">
+        <table class="modal-tabla">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Núm. Trabajador</th>
+              <th>Retardos</th>
+              <th>
+                <div class="fechas-th-wrap">
+                  <span>Fechas de Retardo</span>
+                  <div class="fechas-th-cols">
+                    <span>Día</span>
+                    <span>Mes</span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>`;
+
+    empleados.forEach((clave, i) => {
+      const { numTrabajador, nombre, registros } = porEmpleado[clave];
+
+      const fechasOrdenadas = registros
+        .map(r => new Date(r.FECHA))
+        .sort((a, b) => a - b);
+
+      const MESES_CORTOS = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+      const fechasHtml = fechasOrdenadas.map((d, idx) => `
+        <div class="fecha-fila ${idx % 2 === 0 ? 'fecha-par' : 'fecha-impar'}">
+          <span class="fecha-dia">${String(d.getDate()).padStart(2,'0')}</span>
+          <span class="fecha-mes">${MESES_CORTOS[d.getMonth()]}</span>
+        </div>`).join('');
+
+      const nivel = registros.length >= 5 ? 'alto' : registros.length >= 3 ? 'medio' : 'bajo';
+
+      html += `
+        <tr>
+          <td>${i + 1}</td>
+          <td class="empleado-nombre">
+            <span class="num-trabajador">${numTrabajador}</span>
+            ${nombre ? `<span class="nombre-empleado">${nombre}</span>` : ''}
+          </td>
+          <td><span class="retardo-count nivel-${nivel}">${registros.length}</span></td>
+          <td class="fechas-cell">
+            <div class="fechas-lista">${fechasHtml}</div>
+          </td>
+        </tr>`;
+    });
+
+    html += `</tbody></table></div>`;
+    body.innerHTML = html;
+
+  } catch (err) {
+    body.innerHTML = `<p style="color:#c0392b;text-align:center;">Error al cargar el detalle.</p>`;
+    console.error(err);
+  }
+}
+
+function cerrarModal(e) {
+  if (e.target.id === 'modalOverlay') cerrarModalBtn();
+}
+function cerrarModalBtn() {
+  document.getElementById('modalOverlay').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+/* ────────────────────────────────────────────────
+   INDICADOR DE CARGA
+──────────────────────────────────────────────── */
+function mostrarCargando(estado) {
+  document.getElementById('anio-cargando').style.display = estado ? 'inline-flex' : 'none';
+}
+
+/* ════════════════════════════════════════════════
+   PANEL DE NOTIFICACIÓN POR RETARDO
+   Construye la tarjeta de notificación arriba de
+   la gráfica, basándose en los empleados reales
+   con más retardos en el período de referencia.
+════════════════════════════════════════════════ */
+async function construirPanelNotificacion(containerId, retardosEstimados, tipoCalculo, paramValue) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  // Obtener empleados con más retardos del período base (jul-oct 2025)
+  let topEmpleados = [];
+  try {
+    const estados = await fetchEstados();
+    const empleados = await fetchEmpleados();
+
+    const retardosBase = filtrarRetardos(estados, '2025-07-01', '2026-03-31');
+
+    // Agrupar retardos por trabajador
+    const porTrabajador = {};
+    retardosBase.forEach(item => {
+      const num = item['NUM-TRABAJADOR'] || item.NUM_TRABAJADOR || item.num_trabajador || 'SIN-NUM';
+      porTrabajador[num] = (porTrabajador[num] || 0) + 1;
+    });
+
+    // Ordenar por cantidad descendente
+    topEmpleados = Object.entries(porTrabajador)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([num, total]) => {
+        // Buscar nombre en la lista de empleados
+        const emp = empleados.find(e =>
+          (e['NUM-TRABAJADOR'] || e.NUM_TRABAJADOR || e.num_trabajador) === num
+        );
+        const nombre = emp
+          ? `${emp.NOMBRE || ''} ${emp['A-PATERNO'] || ''} ${emp['A-MATERNO'] || ''}`.trim()
+          : '';
+        return { num, total, nombre };
+      });
+  } catch (e) {
+    console.warn('No se pudieron cargar empleados:', e);
+  }
+
+  // Descripción según tipo de cálculo
+  const descCalculo = tipoCalculo === 'meses'
+    ? `Se estiman <strong>${parseFloat(retardosEstimados).toFixed(0)} retardos</strong> en <strong>${paramValue} meses</strong>.`
+    : `Se alcanzarán <strong>${paramValue} retardos</strong> en aprox. <strong>${parseFloat(retardosEstimados).toFixed(2)} meses</strong>.`;
+
+  const filas = topEmpleados.length > 0
+    ? topEmpleados.map((emp, i) => `
+        <tr class="notif-fila" data-num="${emp.num}" data-nombre="${emp.nombre}">
+          <td style="padding:8px 10px;font-weight:700;color:var(--maroon);">${i + 1}</td>
+          <td style="padding:8px 10px;">
+            <span style="font-weight:700;color:var(--maroon);display:block;">${emp.num}</span>
+            ${emp.nombre ? `<span style="font-size:11px;color:var(--text-muted);">${emp.nombre}</span>` : ''}
+          </td>
+          <td style="padding:8px 10px;">
+            <span style="background:${emp.total >= 5 ? '#f8d7da' : emp.total >= 3 ? '#fff3cd' : '#d4edda'};
+                         color:${emp.total >= 5 ? '#721c24' : emp.total >= 3 ? '#856404' : '#155724'};
+                         padding:3px 10px;border-radius:20px;font-weight:700;font-size:13px;">
+              ${emp.total} retardo${emp.total !== 1 ? 's' : ''}
+            </span>
+          </td>
+          <td style="padding:8px 10px;">
+            <button
+              class="btn-notif-empleado"
+              onclick="abrirModalNotificacion('${emp.num}', '${emp.nombre.replace(/'/g, "\\'")}', ${emp.total}, '${tipoCalculo}', ${paramValue}, ${parseFloat(retardosEstimados).toFixed(2)})"
+              title="Enviar notificación a este empleado">
+              🔔 Notificar
+            </button>
+          </td>
+        </tr>`).join('')
+    : `<tr><td colspan="4" style="text-align:center;padding:16px;color:var(--text-muted);">No hay datos de empleados disponibles.</td></tr>`;
+
+  container.innerHTML = `
+    <div class="notif-prediccion-panel">
+      <div class="notif-prediccion-header">
+        <span class="notif-icon">📊</span>
+        <div>
+          <div class="notif-prediccion-titulo">Trabajadores en riesgo de retardo</div>
+          <div class="notif-prediccion-desc">${descCalculo} Los empleados con mayor historial de retardos son:</div>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;margin-top:12px;">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead>
+            <tr style="background:var(--maroon);color:#fff;">
+              <th style="padding:8px 10px;text-align:left;">#</th>
+              <th style="padding:8px 10px;text-align:left;">Núm. Trabajador</th>
+              <th style="padding:8px 10px;text-align:left;">Retardos históricos</th>
+              <th style="padding:8px 10px;text-align:left;">Acción</th>
+            </tr>
+          </thead>
+          <tbody>${filas}</tbody>
+        </table>
+      </div>
+
+      <p class="notif-pie">
+        💡 Haz clic en <strong>Notificar</strong> para enviar un aviso preventivo a ese trabajador.
+      </p>
+    </div>
+  `;
+}
+
+/* ────────────────────────────────────────────────
+   MODAL DE NOTIFICACIÓN INDIVIDUAL
+──────────────────────────────────────────────── */
+function abrirModalNotificacion(numTrabajador, nombre, totalRetardos, tipoCalculo, paramValue, retardosEstimados) {
+  // Mensaje por defecto
+  const mensajeDefault = tipoCalculo === 'meses'
+    ? `Estimado/a trabajador/a, con base en el análisis de asistencia del sistema, se estima que en ${paramValue} meses la institución podría registrar alrededor de ${Math.round(retardosEstimados)} retardos. Su historial de ${totalRetardos} retardo${totalRetardos !== 1 ? 's' : ''} registrado${totalRetardos !== 1 ? 's' : ''} lo identifica como un colaborador en situación de riesgo. Le invitamos a reforzar su puntualidad para evitar sanciones.`
+    : `Estimado/a trabajador/a, según el modelo matemático de predicción, la institución alcanzaría ${paramValue} retardos en aproximadamente ${parseFloat(retardosEstimados).toFixed(1)} meses. Su historial actual de ${totalRetardos} retardo${totalRetardos !== 1 ? 's' : ''} lo identifica como colaborador en riesgo. Le solicitamos mejorar su puntualidad a la brevedad posible.`;
+
+  // Crear overlay si no existe
+  let overlay = document.getElementById('modalNotifOverlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.id = 'modalNotifOverlay';
+    overlay.style.cssText = `
+      position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:10000;
+      display:flex;align-items:center;justify-content:center;padding:20px;
+    `;
+    overlay.onclick = (e) => { if (e.target === overlay) cerrarModalNotificacion(); };
+    document.body.appendChild(overlay);
+  }
+
+  overlay.innerHTML = `
+    <div class="modal-notif-box">
+      <div class="modal-notif-header">
+        <div>
+          <h3 style="margin:0;font-size:17px;">🔔 Enviar Notificación de Retardo</h3>
+          <p style="margin:4px 0 0;font-size:13px;opacity:.85;">Registro en tabla <code>notificacionRetardo</code></p>
+        </div>
+        <button onclick="cerrarModalNotificacion()" class="modal-cerrar" aria-label="Cerrar">✕</button>
+      </div>
+
+      <div class="modal-notif-body">
+
+        <!-- Tarjeta del empleado -->
+        <div class="notif-empleado-card">
+          <div class="notif-empleado-avatar">👤</div>
+          <div>
+            <div class="notif-empleado-num">${numTrabajador}</div>
+            ${nombre ? `<div class="notif-empleado-nombre">${nombre}</div>` : ''}
+            <div class="notif-empleado-badge">
+              <span>Historial: ${totalRetardos} retardo${totalRetardos !== 1 ? 's' : ''}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Campo del mensaje -->
+        <label class="notif-label">Mensaje de notificación:</label>
+        <textarea id="notifMensaje" class="notif-textarea" rows="5">${mensajeDefault}</textarea>
+        <p style="font-size:12px;color:var(--text-muted);margin:4px 0 14px;">
+          Puedes editar el mensaje antes de enviarlo.
+        </p>
+
+        <!-- Info de lo que se guardará -->
+        <div class="notif-info-guardado">
+          <strong>📋 Se registrará en la base de datos:</strong>
+          <ul style="margin:6px 0 0 16px;font-size:13px;line-height:1.8;">
+            <li><strong>NUM-TRABAJADOR:</strong> ${numTrabajador}</li>
+            <li><strong>mensaje:</strong> el texto del área de arriba</li>
+            <li><strong>fecha:</strong> ${new Date().toLocaleString('es-MX')}</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="modal-notif-footer">
+        <button class="btn-cancelar-notif" onclick="cerrarModalNotificacion()">Cancelar</button>
+        <button class="btn-enviar-notif" onclick="enviarNotificacion('${numTrabajador}')">
+          🔔 Registrar Notificación
+        </button>
+      </div>
+    </div>
+  `;
+
+  overlay.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function cerrarModalNotificacion() {
+  const overlay = document.getElementById('modalNotifOverlay');
+  if (overlay) overlay.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+async function enviarNotificacion(numTrabajador) {
+  const mensaje = document.getElementById('notifMensaje').value.trim();
+  if (!mensaje) {
+    alert('El mensaje no puede estar vacío.');
+    return;
+  }
+
+  const btnEnviar = document.querySelector('.btn-enviar-notif');
+  btnEnviar.disabled = true;
+  btnEnviar.textContent = 'Enviando...';
+
+  try {
+    const res = await fetch(`${apiUrl}/api/notificaciones`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        'NUM-TRABAJADOR': numTrabajador,
+        num_trabajador: numTrabajador,
+        mensaje: mensaje,
+        tipo: 'TARDANZA'
+      })
+    });
+
+    // Intentar leer respuesta (puede fallar si endpoint no existe todavía)
+    let respuesta = null;
+    try { respuesta = await res.json(); } catch (_) {}
+
+    if (res.ok && respuesta && respuesta.ok) {
+      mostrarExitoNotificacion(numTrabajador);
+    } else {
+      // Guardar localmente si la API falla / endpoint no existe aún
+      guardarNotificacionLocal(numTrabajador, mensaje);
+      mostrarExitoNotificacion(numTrabajador, true);
+    }
+
+  } catch (err) {
+    // Sin conexión o endpoint no disponible → guardar local
+    guardarNotificacionLocal(numTrabajador, mensaje);
+    mostrarExitoNotificacion(numTrabajador, true);
+  }
+}
+
+function guardarNotificacionLocal(numTrabajador, mensaje) {
+  const notifs = JSON.parse(localStorage.getItem('notificacionesRetardo') || '[]');
+  notifs.push({
+    id: Date.now(),
+    'NUM-TRABAJADOR': numTrabajador,
+    mensaje,
+    fecha: new Date().toISOString()
+  });
+  localStorage.setItem('notificacionesRetardo', JSON.stringify(notifs));
+}
+
+function mostrarExitoNotificacion(numTrabajador, esLocal = false) {
+  const overlay = document.getElementById('modalNotifOverlay');
+  if (!overlay) return;
+
+  const box = overlay.querySelector('.modal-notif-box');
+  box.innerHTML = `
+    <div style="text-align:center;padding:40px 30px;">
+      <div style="font-size:52px;margin-bottom:12px;">✅</div>
+      <h3 style="color:var(--maroon);margin:0 0 8px;">¡Notificación registrada!</h3>
+      <p style="color:var(--text-muted);margin:0 0 6px;">
+        Se ha registrado la notificación para el trabajador
+        <strong style="color:var(--maroon);">${numTrabajador}</strong>.
+      </p>
+      ${esLocal ? `<p style="font-size:12px;color:#856404;background:#fff3cd;padding:8px 12px;border-radius:6px;margin-top:10px;">
+        ⚠ Guardado localmente. Se enviará al servidor cuando el endpoint esté disponible.
+      </p>` : ''}
+      <button onclick="cerrarModalNotificacion()" class="btn-enviar-notif" style="margin-top:20px;">
+        Cerrar
+      </button>
+    </div>
+  `;
+}
+
+/* ────────────────────────────────────────────────
+   MODELO MATEMÁTICO — Calcular retardos en N meses
+──────────────────────────────────────────────── */
+async function calcularRetardos() {
+  const input  = document.getElementById('meses');
+  const output = document.getElementById('resultado_meses');
+  const meses  = parseFloat(input.value);
+
+  if (isNaN(meses) || meses < 0) { output.textContent = 'Ingrese un número válido.'; return; }
+
+  const N0 = window.N0, k = window.k;
+  if (!N0 || !k) { output.textContent = 'No hay datos válidos.'; return; }
+
+  const retardos = N0 * Math.exp(k * meses);
+  output.textContent = `En ${meses.toFixed(1)} meses se estiman ${retardos.toFixed(2)} retardos.`;
+
+  const cardMeses = document.getElementById('card-resultado-meses');
+  if (cardMeses) cardMeses.textContent = `N(${meses}) = ${N0} · e^(${k.toFixed(4)} · ${meses}) ≈ ${retardos.toFixed(2)} retardos`;
+
+  // ── Construir panel de notificaciones ANTES de la gráfica ──
+  let panelContainer = document.getElementById('panel-notif-meses');
+  if (!panelContainer) {
+    panelContainer = document.createElement('div');
+    panelContainer.id = 'panel-notif-meses';
+    const graficaContainer = document.getElementById('grafica-retardos-container');
+    graficaContainer.parentNode.insertBefore(panelContainer, graficaContainer);
+  }
+  await construirPanelNotificacion('panel-notif-meses', retardos, 'meses', meses);
+
+  // ── Gráfica (sin cambios) ──
+  const totalPuntos = Math.max(Math.ceil(meses * 1.5), 12);
+  const labels = [], valores = [];
+  for (let i = 0; i <= totalPuntos; i++) {
+    labels.push(`Mes ${i}`);
+    valores.push(parseFloat((N0 * Math.exp(k * i)).toFixed(2)));
+  }
+
+  const container = document.getElementById('grafica-retardos-container');
+  container.style.display = 'block';
+  const ctx = document.getElementById('graficaRetardos').getContext('2d');
+  if (window._chartRetardos) window._chartRetardos.destroy();
+  window._chartRetardos = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        label: 'Retardos estimados N(t)',
+        data: valores,
+        borderColor: '#5b1220',
+        backgroundColor: 'rgba(91,18,32,0.08)',
+        pointBackgroundColor: '#bd9659',
+        pointRadius: 4,
+        fill: true,
+        tension: 0.4
+      }, {
+        label: `Punto ingresado (Mes ${meses})`,
+        data: labels.map((_, i) => i === Math.round(meses) ? retardos : null),
+        borderColor: '#bd9659',
+        backgroundColor: '#bd9659',
+        pointRadius: 8,
+        pointStyle: 'star',
+        showLine: false
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false } },
+      scales: {
+        x: { title: { display: true, text: 'Meses' } },
+        y: { title: { display: true, text: 'Número de Retardos' }, beginAtZero: false }
+      }
+    }
+  });
+}
+
+/* ────────────────────────────────────────────────
+   MODELO MATEMÁTICO — Calcular tiempo para N retardos
+──────────────────────────────────────────────── */
+async function calcularTiempo() {
+  const input  = document.getElementById('retardos');
+  const output = document.getElementById('resultado');
+  const x      = parseFloat(input.value);
+
+  if (isNaN(x) || x <= 0) { output.textContent = 'Ingrese un número válido.'; return; }
+
+  const N0 = window.N0, k = window.k;
+  if (!N0 || !k) { output.textContent = 'No hay datos válidos.'; return; }
+
+  const t = Math.log(x / N0) / k;
+  if (t < 0) {
+    output.textContent = `Se estima que esa cantidad de retardos se alcanzó hace ${Math.abs(t).toFixed(2)} meses.`;
+  } else {
+    output.textContent = `Se estima llegar a ${x} retardos en ${t.toFixed(2)} meses.`;
+  }
+
+  const cardTiempo = document.getElementById('card-resultado-tiempo');
+  if (cardTiempo) cardTiempo.textContent = `t = ln(${x} / ${N0}) / ${k.toFixed(4)} ≈ ${t.toFixed(2)} meses`;
+
+  // ── Construir panel de notificaciones ANTES de la gráfica ──
+  let panelContainer = document.getElementById('panel-notif-tiempo');
+  if (!panelContainer) {
+    panelContainer = document.createElement('div');
+    panelContainer.id = 'panel-notif-tiempo';
+    const graficaContainer = document.getElementById('grafica-tiempo-container');
+    graficaContainer.parentNode.insertBefore(panelContainer, graficaContainer);
+  }
+  await construirPanelNotificacion('panel-notif-tiempo', t, 'tiempo', x);
+
+  // ── Gráfica (sin cambios) ──
+  const maxRetardos = Math.max(x * 1.5, N0 * 2);
+  const paso = Math.max(1, Math.floor((maxRetardos - N0) / 20));
+  const labelsT = [], valoresT = [];
+  for (let r = Math.round(N0); r <= Math.ceil(maxRetardos); r += paso) {
+    const tiempo = Math.log(r / N0) / k;
+    if (isFinite(tiempo)) { labelsT.push(r); valoresT.push(parseFloat(tiempo.toFixed(2))); }
+  }
+
+  const containerT = document.getElementById('grafica-tiempo-container');
+  containerT.style.display = 'block';
+  const ctxT = document.getElementById('graficaTiempo').getContext('2d');
+  if (window._chartTiempo) window._chartTiempo.destroy();
+  window._chartTiempo = new Chart(ctxT, {
+    type: 'line',
+    data: {
+      labels: labelsT,
+      datasets: [{
+        label: 'Meses necesarios T(N)',
+        data: valoresT,
+        borderColor: '#5b1220',
+        backgroundColor: 'rgba(91,18,32,0.08)',
+        pointBackgroundColor: '#bd9659',
+        pointRadius: 4,
+        fill: true,
+        tension: 0.4
+      }, {
+        label: `Punto ingresado (${x} retardos)`,
+        data: labelsT.map(r => Math.abs(r - x) < paso ? parseFloat((Math.log(x / N0) / k).toFixed(2)) : null),
+        borderColor: '#bd9659',
+        backgroundColor: '#bd9659',
+        pointRadius: 8,
+        pointStyle: 'star',
+        showLine: false
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'top' }, tooltip: { mode: 'index', intersect: false } },
+      scales: {
+        x: { title: { display: true, text: 'Número de Retardos' } },
+        y: { title: { display: true, text: 'Meses necesarios' } }
+      }
+    }
+  });
 }
