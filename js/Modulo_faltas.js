@@ -709,3 +709,17 @@ function calcularTiempo() {
     'tiempo'                          // Tipo de cálculo
   );
 }
+
+/**
+ * Función puente para conectar el clic del botón con la lógica de envío
+ */
+function prepararEnvio(cardId) {
+    const select = document.getElementById(`${cardId}-select-trabajador`);
+    if (!select) {
+        console.error("No se encontró el selector de trabajador");
+        return;
+    }
+    const numTrabajador = select.value;
+    // Llama a la función que ya tienes definida
+    enviarNotificacion(cardId, numTrabajador);
+}
