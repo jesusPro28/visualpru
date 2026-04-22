@@ -4,7 +4,7 @@
  *   - Desarrollo local: 'http://localhost:3000/api'
  *   - Producción Vercel: 'https://tu-backend.vercel.app/api'
  */
-const API_BASE_URL = window.UTHH_API_URL || 'https://backednuevo.vercel.app/api';/* ─── helpers de autenticación ─── */
+const API_BASE_URL = window.UTHH_API_URL || 'https://apiserver-eta.vercel.app/api';/* ─── helpers de autenticación ─── */
 function getToken() {
   return localStorage.getItem('uthh_token');
 }
