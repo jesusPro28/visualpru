@@ -115,7 +115,7 @@
             <option value="11">11 meses</option>
             <option value="12">12 meses</option>
           </select><br><br>
-          <button type="button" onclick="calcularRetardos()">Calcular</button><br><br>
+          <button type="button" onclick="calcularRetardos()">Predecir</button><br><br>
           <p id="resultado_meses"></p>
         </form>
 
@@ -144,7 +144,7 @@
           <input type="number" id="retardos" min="1" max="200" step="1"
                  oninput="if(this.value>200){this.value=200;document.getElementById('aviso-retardos').style.display='inline';}else{document.getElementById('aviso-retardos').style.display='none';}">
           <span id="aviso-retardos" style="display:none;margin-left:8px;color:#721c24;font-size:13px;font-weight:bold;">⚠ Máximo 200 retardos</span><br><br>
-          <button type="button" onclick="calcularTiempo()">Calcular</button><br><br>
+          <button type="button" onclick="calcularTiempo()">Predecir</button><br><br>
           <p id="resultado"></p>
         </form>
 
