@@ -528,23 +528,51 @@ function prepararEnvio(cardId) {
 async function enviarNotificacion(cardId, numTrabajador) {
   if (!numTrabajador) return;
 
-  const textarea  = document.getElementById(`${cardId}-textarea`);
+  const textarea = document.getElementById(`${cardId}-textarea`);
   const btnEnviar = document.getElementById(`${cardId}-btn`);
-  const status    = document.getElementById(`${cardId}-status`);
-  const mensaje   = textarea.value.trim();
+  const status = document.getElementById(`${cardId}-status`);
+  const mensaje = textarea.value.trim();
 
+  // Validación básica antes de intentar registrar
   if (!mensaje) {
-    mostrarStatusNotificacion(status, 'error', '⚠ El mensaje no puede estar vacío.');
-    textarea.focus();
+    mostrarStatusNotificacion(status, 'error', '⚠ Escribe un mensaje.');
     return;
   }
 
-  // Leer token de admin guardado en localStorage por el login
-  const token = localStorage.getItem('uthh_token');
-  if (!token) {
-    mostrarStatusNotificacion(status, 'error', '⚠ No hay sesión activa. Inicia sesión como administrador.');
-    return;
+  // Bloquear botón para evitar múltiples clics
+  btnEnviar.disabled = true;
+  btnEnviar.innerHTML = 'Registrando...';
+
+  try {
+    const res = await fetch(notificacionUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      // Enviamos los datos tal cual los espera tu tabla 'notificaciones'
+      body: JSON.stringify({ 
+        numTrabajador: numTrabajador, 
+        mensaje: mensaje 
+      }),
+    });
+
+    // Verificamos si el servidor aceptó el registro
+    if (res.ok) {
+      mostrarStatusNotificacion(status, 'exito', '✔ Notificación guardada en la BD.');
+      btnEnviar.innerHTML = '✔ Registrado';
+      btnEnviar.style.backgroundColor = '#28a745'; // Color verde de éxito
+      textarea.disabled = true;
+    } else {
+      const errorData = await res.json();
+      throw new Error(errorData.msg || 'Error al guardar');
+    }
+  } catch (err) {
+    console.error('Error de registro:', err);
+    mostrarStatusNotificacion(status, 'error', `✕ Error: ${err.message}`);
+    btnEnviar.disabled = false;
+    btnEnviar.innerHTML = 'Reintentar registro';
   }
+}
 
   // Estado de carga
   btnEnviar.disabled = true;
